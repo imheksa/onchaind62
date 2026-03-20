@@ -24,3 +24,54 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Prose styles untuk lesson content */
+.prose {
+  max-width: 100%;
+  color: #374151;
+  line-height: 1.75;
+}
+
+.prose h1 { font-size: 2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #111827; }
+.prose h2 { font-size: 1.5rem; font-weight: 700; margin: 1.5rem 0 0.75rem; color: #111827; }
+.prose h3 { font-size: 1.25rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: #111827; }
+.prose p { margin: 0.75rem 0; }
+.prose ul { list-style: disc; padding-left: 1.5rem; margin: 0.75rem 0; }
+.prose ol { list-style: decimal; padding-left: 1.5rem; margin: 0.75rem 0; }
+.prose li { margin: 0.25rem 0; }
+.prose code {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.875rem;
+  font-family: 'Courier New', monospace;
+  color: #6366f1;
+}
+.prose pre {
+  background: #1e1e2e;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #cdd6f4;
+  font-size: 0.875rem;
+}
+.prose blockquote {
+  border-left: 4px solid #6366f1;
+  padding-left: 1rem;
+  color: #6b7280;
+  font-style: italic;
+  margin: 1rem 0;
+}
+.prose strong { font-weight: 700; color: #111827; }
+.prose a { color: #6366f1; text-decoration: underline; }
+.prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.prose th { background: #f3f4f6; padding: 0.5rem 1rem; text-align: left; font-weight: 600; border: 1px solid #e5e7eb; }
+.prose td { padding: 0.5rem 1rem; border: 1px solid #e5e7eb; }
+.prose hr { border: 0; border-top: 1px solid #e5e7eb; margin: 1.5rem 0; }
