@@ -8,13 +8,14 @@ import { EnrollButton } from "@/components/course/EnrollButton";
 export default async function CourseDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
 
   const course = await prisma.course.findUnique({
-    where: { slug: params.slug, isPublished: true },
+    where: { slug, isPublished: true },
     include: {
       modules: {
         orderBy: { order: "asc" },

@@ -7,13 +7,14 @@ import { LessonViewer } from "@/components/lesson/LessonViewer";
 export default async function LessonPage({
   params,
 }: {
-  params: { courseSlug: string; moduleSlug: string; lessonSlug: string };
+  params: Promise<{ courseSlug: string; moduleSlug: string; lessonSlug: string }>;
 }) {
+  const { courseSlug, moduleSlug, lessonSlug } = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
 
   const course = await prisma.course.findUnique({
-    where: { slug: params.courseSlug, isPublished: true },
+    where: { slug: courseSlug, isPublished: true },
     include: {
       modules: {
         orderBy: { order: "asc" },
@@ -31,12 +32,12 @@ export default async function LessonPage({
   const enrollment = await prisma.enrollment.findUnique({
     where: { userId_courseId: { userId: session.user.id, courseId: course.id } },
   });
-  if (!enrollment) redirect(`/courses/${params.courseSlug}`);
+  if (!enrollment) redirect(`/courses/${courseSlug}`);
 
-  const currentModule = course.modules.find((m) => m.slug === params.moduleSlug);
+  const currentModule = course.modules.find((m) => m.slug === moduleSlug);
   if (!currentModule) notFound();
 
-  const currentLesson = currentModule.lessons.find((l) => l.slug === params.lessonSlug);
+  const currentLesson = currentModule.lessons.find((l) => l.slug === lessonSlug);
   if (!currentLesson) notFound();
 
   // Progress

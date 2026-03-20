@@ -27,7 +27,6 @@ export function LessonViewer({
   lesson,
   module,
   course,
-  userId,
   isCompleted,
   nextLesson,
   hasQuiz,

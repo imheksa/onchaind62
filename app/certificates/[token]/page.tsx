@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 export default async function CertificatePage({
   params,
 }: {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 }) {
+  const { token } = await params;
   const cert = await prisma.certificate.findUnique({
-    where: { claimToken: params.token },
+    where: { claimToken: token },
     include: {
       user: { select: { name: true, email: true } },
       course: { select: { title: true, icon: true } },
@@ -80,7 +81,7 @@ export default async function CertificatePage({
           <div className="bg-gray-50 border-t border-gray-100 px-10 py-5 text-center">
             <p className="text-xs text-gray-400">
               Sertifikat ini dapat diverifikasi di{" "}
-              <span className="text-indigo-600">{process.env.NEXT_PUBLIC_APP_URL}/certificates/{params.token}</span>
+              <span className="text-indigo-600">{process.env.NEXT_PUBLIC_APP_URL}/certificates/{token}</span>
             </p>
           </div>
         </div>

@@ -7,13 +7,14 @@ import { QuizEngine } from "@/components/quiz/QuizEngine";
 export default async function QuizPage({
   params,
 }: {
-  params: { moduleId: string };
+  params: Promise<{ moduleId: string }>;
 }) {
+  const { moduleId } = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
 
   const quiz = await prisma.quiz.findUnique({
-    where: { id: params.moduleId },
+    where: { id: moduleId },
     include: {
       questions: { orderBy: { order: "asc" } },
       module: {
