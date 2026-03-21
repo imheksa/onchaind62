@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { marked } from "marked";
+import { LessonQuizWidget } from "@/components/lesson/LessonQuizWidget";
 
 type LessonViewerProps = {
   lesson: { id: string; title: string; content: string };
@@ -22,6 +23,7 @@ type LessonViewerProps = {
     slug: string;
     lessons: { id: string; title: string; slug: string; completed: boolean }[];
   }[];
+  lessonQuiz: { id: string; questions: { id: string; text: string; options: string[]; order: number }[] } | null;
 };
 
 marked.setOptions({ gfm: true, breaks: true });
@@ -36,6 +38,7 @@ export function LessonViewer({
   quizPassed,
   quizId,
   modulesList,
+  lessonQuiz,
 }: LessonViewerProps) {
   const router = useRouter();
   const [completing, setCompleting] = useState(false);
@@ -125,6 +128,11 @@ export function LessonViewer({
             className="prose"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
+
+          {/* Lesson Quiz */}
+          {lessonQuiz && (
+            <LessonQuizWidget quiz={lessonQuiz} lessonTitle={lesson.title} />
+          )}
 
           {/* Actions */}
           <div className="mt-12 pt-8 border-t border-slate-800 flex items-center justify-between flex-wrap gap-4">

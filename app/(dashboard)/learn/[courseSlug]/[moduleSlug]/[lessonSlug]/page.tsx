@@ -19,7 +19,19 @@ export default async function LessonPage({
       modules: {
         orderBy: { order: "asc" },
         include: {
-          lessons: { orderBy: { order: "asc" } },
+          lessons: {
+            orderBy: { order: "asc" },
+            include: {
+              quiz: {
+                include: {
+                  questions: {
+                    orderBy: { order: "asc" },
+                    select: { id: true, text: true, options: true, order: true },
+                  },
+                },
+              },
+            },
+          },
           quiz: true,
         },
       },
@@ -88,6 +100,10 @@ export default async function LessonPage({
           completed: completedIds.has(l.id),
         })),
       }))}
+      lessonQuiz={currentLesson.quiz ? {
+        id: currentLesson.quiz.id,
+        questions: currentLesson.quiz.questions,
+      } : null}
     />
   );
 }

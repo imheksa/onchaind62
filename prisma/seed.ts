@@ -2434,7 +2434,13 @@ const curriculum = [
       {
         title: "Pengantar SQL Dasar", slug: "pengantar-sql-dasar", order: 1,
         lessons: [
-          { title: "Apa itu Database & SQL?", slug: "apa-itu-database-sql", order: 1, content: L_APA_ITU_DB },
+          { title: "Apa itu Database & SQL?", slug: "apa-itu-database-sql", order: 1, content: L_APA_ITU_DB, lessonQuiz: [
+            { text: "Apa yang dimaksud dengan 'kolom' dalam sebuah tabel database?", options: ["Satu catatan atau transaksi tunggal", "Kategori atau atribut yang mendefinisikan jenis informasi", "Bahasa untuk mengambil data dari database", "Sistem penyimpanan data digital"], answer: 1, order: 1 },
+            { text: "Berapa nilai 1 ETH dalam satuan wei?", options: ["1.000.000 wei (10⁶)", "1.000.000.000 wei (10⁹)", "1.000.000.000.000.000.000 wei (10¹⁸)", "1.000.000.000.000 wei (10¹²)"], answer: 2, order: 2 },
+            { text: "Platform analisis blockchain mana yang menggunakan dialek SQL berbasis Trino (DuneSQL)?", options: ["Footprint Analytics", "Flipside Crypto", "Dune Analytics", "Allium"], answer: 2, order: 3 },
+            { text: "Manakah pernyataan yang BENAR mengenai perbedaan baris dan kolom dalam tabel?", options: ["Baris mendefinisikan kategori data; kolom merepresentasikan satu catatan", "Baris merepresentasikan satu catatan; kolom mendefinisikan kategori data", "Baris dan kolom memiliki fungsi yang identik", "Kolom berisi data transaksi; baris berisi metadata tabel"], answer: 1, order: 4 },
+            { text: "Apa kepanjangan dari SQL?", options: ["Simple Query Language", "System Query Logic", "Structured Query Language", "Sequential Query List"], answer: 2, order: 5 },
+          ] },
           { title: "SELECT & FROM — Cara Membaca Data", slug: "select-from", order: 2, content: L_SELECT_FROM },
           { title: "WHERE — Cara Filter Data", slug: "where-filter", order: 3, content: L_WHERE },
           { title: "ORDER BY — Mengurutkan Hasil", slug: "order-by", order: 4, content: L_ORDER_BY },
@@ -2610,12 +2616,31 @@ async function main() {
       console.log(`  📖 ${mod.title}`);
 
       for (const lessonData of lessons) {
-        await prisma.lesson.upsert({
-          where: { moduleId_slug: { moduleId: mod.id, slug: lessonData.slug } },
-          create: { ...lessonData, moduleId: mod.id },
-          update: { ...lessonData },
+        const { lessonQuiz, ...lessonFields } = lessonData as typeof lessonData & { lessonQuiz?: { text: string; options: string[]; answer: number; order: number }[] };
+        const lesson = await prisma.lesson.upsert({
+          where: { moduleId_slug: { moduleId: mod.id, slug: lessonFields.slug } },
+          create: { ...lessonFields, moduleId: mod.id },
+          update: { ...lessonFields },
         });
-        console.log(`    📝 ${lessonData.title}`);
+        console.log(`    📝 ${lessonFields.title}`);
+
+        if (lessonQuiz) {
+          const existingQuiz = await prisma.lessonQuiz.findUnique({ where: { lessonId: lesson.id } });
+          if (existingQuiz) {
+            await prisma.lessonQuestion.deleteMany({ where: { quizId: existingQuiz.id } });
+            await prisma.lessonQuestion.createMany({
+              data: lessonQuiz.map(q => ({ ...q, quizId: existingQuiz.id })),
+            });
+          } else {
+            await prisma.lessonQuiz.create({
+              data: {
+                lessonId: lesson.id,
+                questions: { create: lessonQuiz },
+              },
+            });
+          }
+          console.log(`    🧩 LessonQuiz: ${lessonQuiz.length} soal`);
+        }
       }
 
       if (quiz) {

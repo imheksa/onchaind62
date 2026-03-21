@@ -51,12 +51,13 @@ model User {
   passwordHash  String?
   createdAt     DateTime  @default(now())
 
-  accounts     Account[]
-  sessions     Session[]
-  enrollments  Enrollment[]
-  quizAttempts QuizAttempt[]
-  certificates Certificate[]
-  progress     LessonProgress[]
+  accounts           Account[]
+  sessions           Session[]
+  enrollments        Enrollment[]
+  quizAttempts       QuizAttempt[]
+  certificates       Certificate[]
+  progress           LessonProgress[]
+  lessonQuizAttempts LessonQuizAttempt[]
 }
 
 model Course {
@@ -107,6 +108,7 @@ model Lesson {
   module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   progress LessonProgress[]
+  quiz     LessonQuiz?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -187,4 +189,37 @@ model Certificate {
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
+}
+
+model LessonQuiz {
+  id        String              @id @default(cuid())
+  lessonId  String              @unique
+  lesson    Lesson              @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  questions LessonQuestion[]
+  attempts  LessonQuizAttempt[]
+  createdAt DateTime            @default(now())
+}
+
+model LessonQuestion {
+  id      String     @id @default(cuid())
+  text    String     @db.Text
+  options String[]
+  answer  Int
+  order   Int        @default(0)
+  quizId  String
+  quiz    LessonQuiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model LessonQuizAttempt {
+  id        String     @id @default(cuid())
+  score     Int
+  passed    Boolean
+  answers   Json
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizId    String
+  quiz      LessonQuiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+
+  @@unique([userId, quizId])
 }
