@@ -5,31 +5,43 @@ const features = [
     icon: "🗄️",
     title: "SQL dari Nol",
     desc: "Pelajari SQL mulai dari SELECT dasar hingga Window Functions dan CTE yang digunakan analis profesional.",
+    color: "from-violet-500/20 to-purple-500/10 border-violet-500/20",
+    dot: "bg-violet-500",
   },
   {
     icon: "⛓️",
     title: "On-Chain Data",
     desc: "Pahami struktur data blockchain: blocks, transactions, logs, dan cara query-nya di Dune Analytics.",
+    color: "from-sky-500/20 to-blue-500/10 border-sky-500/20",
+    dot: "bg-sky-500",
   },
   {
     icon: "📊",
     title: "Dune Dashboard",
     desc: "Buat visualisasi dan dashboard interaktif untuk analisis DeFi, NFT, token, dan aktivitas on-chain.",
+    color: "from-emerald-500/20 to-teal-500/10 border-emerald-500/20",
+    dot: "bg-emerald-500",
   },
   {
     icon: "🔍",
     title: "Footprint Analytics",
     desc: "Kuasai Footprint Analytics dengan mode drag-and-drop dan SQL untuk analisis multi-chain.",
+    color: "from-amber-500/20 to-orange-500/10 border-amber-500/20",
+    dot: "bg-amber-500",
   },
   {
     icon: "🏆",
     title: "Quiz & Sertifikat",
     desc: "Setiap modul diakhiri dengan quiz. Lulus dengan nilai 85%+ dan dapatkan sertifikat resmi.",
+    color: "from-pink-500/20 to-rose-500/10 border-pink-500/20",
+    dot: "bg-pink-500",
   },
   {
     icon: "⚡",
     title: "Query Optimization",
     desc: "Pelajari cara menulis query DuneSQL yang efisien dengan Trino dan hindari timeout.",
+    color: "from-violet-500/20 to-indigo-500/10 border-violet-500/20",
+    dot: "bg-indigo-500",
   },
 ];
 
@@ -42,21 +54,33 @@ const curriculum = [
   { num: "06", title: "Footprint Analytics", lessons: 3, topics: ["Pengenalan Footprint", "No-Code Dashboard", "SQL Mode di Footprint"] },
 ];
 
+const stats = [
+  { value: "5", label: "Kursus" },
+  { value: "30+", label: "Lesson" },
+  { value: "85%", label: "Nilai Kelulusan" },
+  { value: "🎓", label: "Sertifikat" },
+];
+
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#0f172a] text-slate-100">
+
       {/* Navbar */}
-      <nav className="border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-gray-900">
-            <span className="text-2xl">⛓️</span>
-            <span>OnChain <span className="text-indigo-600">Academy</span></span>
+      <nav className="border-b border-slate-800 bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-violet-900/40">
+              ⛓
+            </div>
+            <span className="font-bold text-base text-slate-100">
+              OnChain <span className="text-violet-400">Academy</span>
+            </span>
           </Link>
-          <div className="flex items-center gap-3">
-            <Link href="/login" className="text-gray-600 hover:text-gray-900 text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+          <div className="flex items-center gap-2">
+            <Link href="/login" className="text-slate-400 hover:text-slate-200 text-sm font-medium px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors">
               Masuk
             </Link>
-            <Link href="/register" className="bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+            <Link href="/register" className="bg-gradient-to-r from-violet-600 to-purple-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:from-violet-500 hover:to-purple-500 transition-all shadow-md shadow-violet-900/30">
               Daftar Gratis
             </Link>
           </div>
@@ -64,63 +88,76 @@ export default function HomePage() {
       </nav>
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-24 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-sm font-medium px-4 py-2 rounded-full mb-6">
-            <span>🚀</span> Platform Belajar On-Chain Analysis #1
+      <section className="relative pt-24 pb-28 px-6 overflow-hidden">
+        {/* Background glows */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-40 left-1/4 w-[400px] h-[300px] bg-purple-600/8 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-medium px-4 py-2 rounded-full mb-8">
+            <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-pulse" />
+            Platform Belajar On-Chain Analysis #1 Indonesia
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
-            Kuasai <span className="text-indigo-600">On-Chain</span><br />
+
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 tracking-tight">
+            Kuasai{" "}
+            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
+              On-Chain
+            </span>
+            <br />
             Analysis dari Nol
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
             Dari SQL dasar hingga membuat dashboard Dune dan Footprint Analytics.
             Belajar dengan kurikulum terstruktur dan dapatkan sertifikat setelah lulus.
           </p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register" className="bg-indigo-600 text-white font-semibold px-8 py-4 rounded-xl hover:bg-indigo-700 transition-colors text-lg shadow-lg shadow-indigo-200">
+            <Link
+              href="/register"
+              className="bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 transition-all text-base shadow-xl shadow-violet-900/40"
+            >
               Mulai Belajar Gratis →
             </Link>
-            <Link href="/courses" className="bg-white text-gray-800 font-semibold px-8 py-4 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-lg">
+            <Link
+              href="/courses"
+              className="bg-slate-800 text-slate-200 font-semibold px-8 py-4 rounded-xl border border-slate-700 hover:bg-slate-700 hover:border-slate-600 transition-all text-base"
+            >
               Lihat Kurikulum
             </Link>
           </div>
 
           {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-12 mt-16 pt-8 border-t border-gray-100">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">6</div>
-              <div className="text-sm text-gray-500 mt-1">Modul Kursus</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">24+</div>
-              <div className="text-sm text-gray-500 mt-1">Sub-Lesson</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">85%</div>
-              <div className="text-sm text-gray-500 mt-1">Nilai Kelulusan</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">🎓</div>
-              <div className="text-sm text-gray-500 mt-1">Sertifikat Resmi</div>
-            </div>
+          <div className="flex flex-wrap justify-center gap-10 mt-16 pt-10 border-t border-slate-800">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="text-3xl font-bold text-slate-100">{s.value}</div>
+                <div className="text-sm text-slate-500 mt-1">{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Apa yang Akan Kamu Pelajari?</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Kurikulum lengkap dari dasar hingga mahir, dirancang khusus untuk calon on-chain analyst.</p>
+            <h2 className="text-3xl font-bold text-slate-100 mb-4">Apa yang Akan Kamu Pelajari?</h2>
+            <p className="text-slate-400 max-w-xl mx-auto text-sm leading-relaxed">
+              Kurikulum lengkap dari dasar hingga mahir, dirancang khusus untuk calon on-chain analyst.
+            </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f, i) => (
-              <div key={i} className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-md transition-shadow">
+              <div
+                key={i}
+                className={`bg-gradient-to-br ${f.color} border rounded-xl p-6 hover:scale-[1.02] transition-transform`}
+              >
                 <div className="text-3xl mb-4">{f.icon}</div>
-                <h3 className="font-semibold text-gray-900 text-lg mb-2">{f.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{f.desc}</p>
+                <h3 className="font-semibold text-slate-100 text-base mb-2">{f.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -128,27 +165,30 @@ export default function HomePage() {
       </section>
 
       {/* Curriculum */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-6 bg-slate-900/50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Kurikulum Lengkap</h2>
-            <p className="text-gray-600">6 modul terstruktur dengan total 24+ sub-lesson</p>
+            <h2 className="text-3xl font-bold text-slate-100 mb-4">Kurikulum Lengkap</h2>
+            <p className="text-slate-400 text-sm">6 modul terstruktur dengan total 30+ lesson</p>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {curriculum.map((m) => (
-              <div key={m.num} className="bg-white border border-gray-100 rounded-2xl p-6">
+              <div
+                key={m.num}
+                className="bg-[#1e293b] border border-slate-700/50 rounded-xl p-5 hover:border-violet-500/30 transition-colors"
+              >
                 <div className="flex items-start gap-4">
-                  <div className="bg-indigo-100 text-indigo-600 font-bold text-sm px-3 py-1 rounded-lg shrink-0">
+                  <div className="bg-violet-500/15 text-violet-400 border border-violet-500/25 font-bold text-xs px-2.5 py-1 rounded-lg shrink-0 font-mono">
                     {m.num}
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                      <h3 className="font-semibold text-gray-900 text-lg">{m.title}</h3>
-                      <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">{m.lessons} lesson</span>
+                    <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
+                      <h3 className="font-semibold text-slate-200 text-sm">{m.title}</h3>
+                      <span className="text-xs text-slate-500 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full">{m.lessons} lesson</span>
                     </div>
-                    <div className="flex flex-wrap gap-2 mt-3">
+                    <div className="flex flex-wrap gap-1.5">
                       {m.topics.map((t) => (
-                        <span key={t} className="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded-md">{t}</span>
+                        <span key={t} className="text-xs bg-slate-800 text-slate-400 border border-slate-700/50 px-2 py-0.5 rounded-md">{t}</span>
                       ))}
                     </div>
                   </div>
@@ -160,20 +200,28 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-4 bg-gradient-to-r from-indigo-600 to-purple-600">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Siap Menjadi On-Chain Analyst?</h2>
-          <p className="text-indigo-100 mb-8">Daftar sekarang dan mulai perjalanan belajarmu. Gratis!</p>
-          <Link href="/register" className="bg-white text-indigo-600 font-bold px-8 py-4 rounded-xl hover:bg-indigo-50 transition-colors text-lg inline-block">
+      <section className="py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-violet-900/30 to-purple-900/30 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-2xl mx-auto text-center relative z-10">
+          <h2 className="text-3xl font-bold text-slate-100 mb-4">Siap Menjadi On-Chain Analyst?</h2>
+          <p className="text-slate-400 mb-8 text-sm leading-relaxed">
+            Bergabung dengan ribuan pelajar yang sudah memulai perjalanan mereka. Gratis!
+          </p>
+          <Link
+            href="/register"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-bold px-10 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 transition-all text-base shadow-xl shadow-violet-900/40"
+          >
             Daftar Sekarang →
           </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 py-8 px-4 text-center">
-        <p className="text-gray-500 text-sm">© 2025 OnChain Academy. Dibuat dengan ❤️ untuk komunitas Web3 Indonesia.</p>
+      <footer className="border-t border-slate-800 py-8 px-6 text-center">
+        <p className="text-slate-600 text-sm">© 2025 OnChain Academy · Dibuat untuk komunitas Web3 Indonesia</p>
       </footer>
+
     </div>
   );
 }
