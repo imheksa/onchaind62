@@ -127,28 +127,6 @@ Pada lesson berikutnya, Anda akan mempelajari klausa \`SELECT\` dan \`FROM\` sec
 
 ---
 
-## 📝 Kuis Ringkas
-
-Jawab pertanyaan berikut secara mandiri untuk mengukur pemahaman Anda sebelum melanjutkan ke lesson berikutnya.
-
-**1. Apa perbedaan mendasar antara kolom dan baris dalam sebuah tabel database?**
-
-> **Jawaban:** Kolom mendefinisikan kategori atau atribut data (contoh: \`tx_hash\`, \`value\`, \`block_time\`), sedangkan baris merepresentasikan satu catatan atau entitas tunggal — misalnya, satu transaksi blockchain.
-
-**2. Mengapa nilai ETH disimpan dalam satuan wei, bukan langsung dalam ETH?**
-
-> **Jawaban:** Karena komputer tidak dapat merepresentasikan angka desimal dengan sempurna (*floating point error*). Dengan menyimpan nilai sebagai bilangan bulat dalam satuan wei, akurasi perhitungan terjamin. Konversi: \`nilai_wei / 1e18 = nilai_eth\`.
-
-**3. Sebutkan dua platform analisis blockchain yang menggunakan SQL sebagai antarmuka query!**
-
-> **Jawaban:** Dune Analytics (menggunakan DuneSQL/Trino), Footprint Analytics, Flipside Crypto, dan Allium — semuanya menggunakan SQL. Jawaban apa pun yang menyebut dua di antaranya dianggap benar.
-
-**4. Apa yang dimaksud dengan "decoding" data blockchain dalam konteks platform seperti Dune?**
-
-> **Jawaban:** Decoding adalah proses mengubah data transaksi mentah (hexadecimal/binary) menjadi format tabel yang terbaca dan dapat di-query dengan SQL. Platform seperti Dune melakukan decoding secara otomatis berdasarkan ABI (*Application Binary Interface*) smart contract.
-
----
-
 ## 🎯 Tantangan Praktik
 
 Buka **Dune Analytics** (dune.com) dan coba selesaikan tantangan berikut menggunakan Query Editor.
@@ -202,133 +180,194 @@ Tulis query secara mandiri untuk menjawab pertanyaan berikut:
 
 **Petunjuk:** Gunakan \`ORDER BY\` dan \`LIMIT\` yang telah Anda pelajari di ringkasan lesson ini.`;
 
-const L_SELECT_FROM = `# SELECT & FROM — Cara Membaca Data
+const L_SELECT_FROM = `# SELECT dan FROM: Mengambil Data dari Tabel
 
-## Konsep Dasar: Memilih Data
+> **Ringkasan:** \`SELECT\` menentukan kolom yang ingin ditampilkan, sedangkan \`FROM\` menentukan tabel sumber data. Kedua klausa ini adalah fondasi wajib dari setiap query SQL. Pada lesson ini, Anda juga akan mempelajari alias (\`AS\`), kalkulasi dalam query, dan praktik terbaik penggunaan \`LIMIT\`.
 
-Bayangkan kamu di perpustakaan dan ingin mencari buku. Kamu bilang ke petugas:
-- *"Tolong ambilkan **judul dan pengarang** dari **rak Fiksi Ilmiah**"*
+---
 
-Dalam SQL, ini diterjemahkan menjadi:
-- **SELECT** = "Tolong ambilkan..."
-- **FROM** = "dari rak/tabel..."
+## Anatomi Query SELECT
+
+Setiap query SQL dimulai dengan dua klausa wajib:
 
 \`\`\`sql
-SELECT judul, pengarang
-FROM rak_fiksi_ilmiah;
+SELECT kolom1, kolom2, kolom3
+FROM nama_tabel;
 \`\`\`
 
-## SELECT * — Ambil Semua Kolom
+- **SELECT** — mendefinisikan kolom mana yang akan ditampilkan dalam hasil query
+- **FROM** — mendefinisikan tabel sumber data yang akan dibaca
 
-Tanda bintang \`*\` artinya "semua kolom":
+Analoginya seperti memesan makanan: SELECT adalah menu yang Anda pilih, FROM adalah restoran tempat Anda memesan.
+
+---
+
+## SELECT *: Mengambil Semua Kolom
+
+Tanda bintang (\`*\`) pada SELECT berarti "ambil semua kolom yang tersedia":
 
 \`\`\`sql
--- Ambil semua data dari tabel transaksi
 SELECT *
 FROM ethereum.transactions
-LIMIT 10;
+LIMIT 5;
 \`\`\`
 
-> ⚠️ **Hindari SELECT * pada tabel besar!** Tabel blockchain bisa berisi miliaran baris. Selalu gunakan LIMIT atau pilih kolom spesifik.
+> **Perhatian:** Tabel blockchain seperti \`ethereum.transactions\` dapat memuat miliaran baris data. Penggunaan \`SELECT *\` tanpa \`LIMIT\` akan membebani sistem dan berpotensi menyebabkan *query timeout*. Selalu tambahkan \`LIMIT\` saat eksplorasi awal, dan ganti \`*\` dengan kolom spesifik pada query analisis.
+
+---
 
 ## SELECT Kolom Tertentu
 
-Lebih efisien memilih hanya kolom yang dibutuhkan:
+Praktik terbaik dalam analisis data adalah hanya memilih kolom yang benar-benar dibutuhkan. Hal ini mempercepat eksekusi query dan menghemat kuota komputasi:
 
 \`\`\`sql
--- Hanya ambil 3 kolom yang kita butuhkan
 SELECT
-  hash,
-  "from",
-  "to",
-  value,
-  block_time
+    hash,
+    "from",
+    "to",
+    value,
+    block_time
 FROM ethereum.transactions
 LIMIT 100;
 \`\`\`
 
-> 📝 **Catatan**: Di Dune, kolom \`from\` dan \`to\` adalah reserved words, jadi harus ditulis dengan tanda kutip: \`"from"\` dan \`"to"\`.
+> **Catatan DuneSQL:** Kolom \`from\` dan \`to\` merupakan *reserved words* dalam SQL. Di Dune Analytics, kedua kolom ini harus ditulis dengan tanda kutip ganda: \`"from"\` dan \`"to"\`. Mengabaikan aturan ini akan menghasilkan *syntax error*.
 
-## AS — Memberi Nama Alias
+---
 
-Kadang nama kolom asli terlalu teknis atau terlalu panjang. Gunakan \`AS\` untuk memberi nama yang lebih mudah dibaca:
+## Alias dengan AS: Memberi Nama yang Bermakna
+
+Kolom hasil query dapat diberi nama baru menggunakan kata kunci \`AS\`. Alias berguna untuk membuat hasil query lebih mudah dibaca, terutama saat menampilkan hasil kalkulasi:
 
 \`\`\`sql
 SELECT
-  hash AS transaction_hash,
-  "from" AS pengirim,
-  "to" AS penerima,
-  value / 1e18 AS nilai_eth,
-  block_time AS waktu_transaksi
+    hash                    AS tx_hash,
+    "from"                  AS pengirim,
+    "to"                    AS penerima,
+    value / 1e18            AS jumlah_eth,
+    block_time              AS waktu_transaksi
 FROM ethereum.transactions
 LIMIT 50;
 \`\`\`
 
-Hasilnya:
-| transaction_hash | pengirim | penerima | nilai_eth | waktu_transaksi |
-|-----------------|----------|----------|-----------|-----------------|
-| 0xabc.. | 0x111.. | 0x222.. | 1.5 | 2024-01-01 |
+Hasil query di atas:
 
-## LIMIT — Batasi Jumlah Hasil
+| tx_hash | pengirim | penerima | jumlah_eth | waktu_transaksi |
+|---------|----------|----------|------------|-----------------|
+| 0xabc123.. | 0x111aaa.. | 0x222bbb.. | 1.5 | 2024-01-15 10:00:00 |
+| 0xdef456.. | 0x333ccc.. | 0x444ddd.. | 0.25 | 2024-01-15 10:05:12 |
 
-Selalu gunakan LIMIT saat eksplorasi data:
+---
+
+## Kalkulasi Langsung dalam SELECT
+
+Klausa SELECT tidak hanya dapat menampilkan kolom — Anda dapat melakukan operasi matematika secara langsung:
 
 \`\`\`sql
--- Hanya tampilkan 10 baris pertama
+SELECT
+    hash,
+    value / 1e18                AS jumlah_eth,
+    value / 1e18 * 3500         AS estimasi_usd,   -- estimasi (1 ETH ≈ $3.500)
+    gas_price / 1e9             AS gas_gwei,        -- konversi wei → Gwei
+    gas_used * gas_price / 1e18 AS biaya_gas_eth    -- total biaya transaksi
+FROM ethereum.transactions
+WHERE value > 0
+LIMIT 20;
+\`\`\`
+
+Operasi yang didukung: penjumlahan (\`+\`), pengurangan (\`-\`), perkalian (\`*\`), pembagian (\`/\`), dan modulo (\`%\`).
+
+---
+
+## LIMIT: Membatasi Jumlah Baris
+
+\`LIMIT\` membatasi jumlah baris yang dikembalikan oleh query. Penggunaannya sangat dianjurkan, terutama saat:
+
+1. Melakukan eksplorasi tabel baru
+2. Memverifikasi logika query sebelum dijalankan pada dataset penuh
+3. Menghindari *timeout* pada tabel berukuran besar
+
+\`\`\`sql
+-- Eksplorasi awal: lihat 5 baris pertama
+SELECT *
+FROM ethereum.transactions
+LIMIT 5;
+
+-- Analisis: ambil 1.000 baris untuk sampling
 SELECT hash, "from", value / 1e18 AS eth
 FROM ethereum.transactions
-LIMIT 10;
+LIMIT 1000;
 \`\`\`
 
-## Kalkulasi dalam SELECT
+---
 
-Kamu bisa melakukan perhitungan langsung di SELECT:
+## Query Lengkap: Studi Kasus
+
+Berikut contoh query analitis yang menggabungkan seluruh konsep pada lesson ini:
 
 \`\`\`sql
+-- Tampilkan 20 transaksi ETH terbaru beserta estimasi nilainya dalam USD
 SELECT
-  hash,
-  value / 1e18 AS eth_amount,           -- konversi wei ke ETH
-  value / 1e18 * 2000 AS usd_estimate,  -- estimasi USD (asumsi 1 ETH = $2000)
-  gas_price / 1e9 AS gas_gwei           -- konversi ke Gwei
+    hash                    AS tx_hash,
+    "from"                  AS pengirim,
+    "to"                    AS penerima,
+    value / 1e18            AS jumlah_eth,
+    value / 1e18 * 3500     AS estimasi_usd,
+    gas_used * gas_price / 1e18 AS biaya_gas_eth,
+    block_number,
+    block_time              AS waktu
 FROM ethereum.transactions
+WHERE value > 0
 LIMIT 20;
 \`\`\`
 
-## Contoh Lengkap: Query Pertamamu
+---
+
+## Ringkasan
+
+| Klausa | Fungsi | Contoh |
+|--------|--------|--------|
+| \`SELECT *\` | Ambil semua kolom | \`SELECT * FROM tabel\` |
+| \`SELECT kol1, kol2\` | Ambil kolom tertentu | \`SELECT hash, value FROM ...\` |
+| \`AS alias\` | Beri nama baru pada kolom | \`value / 1e18 AS jumlah_eth\` |
+| \`FROM\` | Tentukan sumber tabel | \`FROM ethereum.transactions\` |
+| \`LIMIT n\` | Batasi jumlah baris hasil | \`LIMIT 100\` |
+
+Pada lesson berikutnya, Anda akan mempelajari klausa \`WHERE\` untuk memfilter data berdasarkan kondisi tertentu — kemampuan esensial dalam setiap analisis on-chain.
+
+---
+
+## 🎯 Tantangan Praktik
+
+Buka **Dune Analytics** (dune.com) dan selesaikan tantangan berikut.
+
+### Tantangan 1 — Eksplorasi Kolom Tersedia
+
+Jalankan query berikut, lalu catat seluruh nama kolom yang tersedia:
 
 \`\`\`sql
--- Query untuk melihat transaksi terbesar di Ethereum
-SELECT
-  hash AS tx_hash,
-  "from" AS sender,
-  "to" AS receiver,
-  value / 1e18 AS eth_amount,
-  block_time AS timestamp
+SELECT *
 FROM ethereum.transactions
-LIMIT 100;
+LIMIT 3;
 \`\`\`
 
-## Latihan
+**Pertanyaan:** Kolom apa saja yang ada? Kolom mana yang menyimpan alamat pengirim dan penerima?
 
-Coba query ini di Dune Analytics:
+---
 
-\`\`\`sql
--- 1. Lihat struktur tabel
-SELECT * FROM ethereum.transactions LIMIT 5;
+### Tantangan 2 — Pilih dan Beri Alias
 
--- 2. Pilih kolom tertentu
-SELECT hash, "from", value / 1e18 AS eth FROM ethereum.transactions LIMIT 10;
+Tulis query yang menampilkan kolom \`hash\`, \`from\`, \`to\`, dan \`value\` — namun beri alias yang lebih deskriptif pada setiap kolom, serta konversikan \`value\` dari wei ke ETH.
 
--- 3. Tambahkan kalkulasi
-SELECT
-  hash,
-  value / 1e18 AS eth_amount,
-  block_number
-FROM ethereum.transactions
-LIMIT 20;
-\`\`\`
+**Petunjuk:** Gunakan \`AS\` dan operasi \`/ 1e18\`.
 
-> 💡 **Tips**: Saat pertama kali eksplorasi tabel baru, selalu mulai dengan \`SELECT * ... LIMIT 5\` untuk melihat struktur datanya terlebih dahulu.`;
+---
+
+### Tantangan 3 (Bonus) — Kalkulasi Biaya Transaksi
+
+Tulis query yang menampilkan biaya gas setiap transaksi dalam satuan ETH. Rumus: \`gas_used × gas_price / 1e18\`.
+
+**Target:** Kolom hasil harus bernama \`biaya_gas_eth\` dan query hanya menampilkan transaksi dengan \`value > 0\`.`;
 
 const L_WHERE = `# WHERE — Cara Filter Data
 
@@ -2441,7 +2480,13 @@ const curriculum = [
             { text: "Manakah pernyataan yang BENAR mengenai perbedaan baris dan kolom dalam tabel?", options: ["Baris mendefinisikan kategori data; kolom merepresentasikan satu catatan", "Baris merepresentasikan satu catatan; kolom mendefinisikan kategori data", "Baris dan kolom memiliki fungsi yang identik", "Kolom berisi data transaksi; baris berisi metadata tabel"], answer: 1, order: 4 },
             { text: "Apa kepanjangan dari SQL?", options: ["Simple Query Language", "System Query Logic", "Structured Query Language", "Sequential Query List"], answer: 2, order: 5 },
           ] },
-          { title: "SELECT & FROM — Cara Membaca Data", slug: "select-from", order: 2, content: L_SELECT_FROM },
+          { title: "SELECT & FROM — Cara Membaca Data", slug: "select-from", order: 2, content: L_SELECT_FROM, lessonQuiz: [
+            { text: "Apa fungsi klausa FROM dalam sebuah query SQL?", options: ["Menentukan kolom yang akan ditampilkan", "Menentukan tabel sumber data yang akan dibaca", "Memfilter baris berdasarkan kondisi tertentu", "Mengurutkan hasil query"], answer: 1, order: 1 },
+            { text: "Mengapa kolom 'from' dan 'to' di Dune Analytics harus ditulis dengan tanda kutip ganda (\"from\", \"to\")?", options: ["Karena keduanya berisi alamat wallet yang panjang", "Karena keduanya merupakan reserved words dalam SQL", "Karena Dune menggunakan dialek SQL yang berbeda dari standar", "Karena nilainya bisa berupa NULL"], answer: 1, order: 2 },
+            { text: "Apa risiko utama menggunakan SELECT * tanpa LIMIT pada tabel blockchain?", options: ["Query akan menampilkan kolom yang salah", "Query akan gagal karena syntax error", "Query berpotensi timeout karena membaca miliaran baris data", "Alias tidak akan berfungsi dengan SELECT *"], answer: 2, order: 3 },
+            { text: "Manakah query yang BENAR untuk menampilkan nilai transaksi dalam satuan ETH dengan nama kolom 'jumlah_eth'?", options: ["SELECT value AS jumlah_eth FROM ethereum.transactions", "SELECT value / 1e18 AS jumlah_eth FROM ethereum.transactions LIMIT 10", "SELECT value * 1e18 AS jumlah_eth FROM ethereum.transactions LIMIT 10", "SELECT ETH(value) AS jumlah_eth FROM ethereum.transactions"], answer: 1, order: 4 },
+            { text: "Kata kunci apa yang digunakan untuk memberi nama alias pada kolom hasil query?", options: ["NAME", "ALIAS", "AS", "RENAME"], answer: 2, order: 5 },
+          ] },
           { title: "WHERE — Cara Filter Data", slug: "where-filter", order: 3, content: L_WHERE },
           { title: "ORDER BY — Mengurutkan Hasil", slug: "order-by", order: 4, content: L_ORDER_BY },
         ],
