@@ -46,20 +46,25 @@ const features = [
 ];
 
 const curriculum = [
-  { num: "01", title: "SQL Fundamentals", lessons: 7, topics: ["SELECT & WHERE", "GROUP BY & Agregasi", "JOIN Tables", "Subquery & CTE", "Window Functions", "Date & String Functions", "Advanced SQL"] },
-  { num: "02", title: "DuneSQL & Query Optimization", lessons: 3, topics: ["Pengenalan Dune Analytics", "DuneSQL / Trino Dialect", "Query Optimization"] },
-  { num: "03", title: "Dashboard Dune", lessons: 3, topics: ["Membuat Visualisasi", "Menyusun Dashboard", "Study Case: Lens Protocol"] },
-  { num: "04", title: "Analisis Token & DeFi", lessons: 4, topics: ["ERC20 Token Analysis", "NFT Analysis", "DeFi Protocol Analysis", "MEV Analysis"] },
-  { num: "05", title: "Advanced On-Chain Analysis", lessons: 4, topics: ["Cross-Chain Analysis", "Network & Wallet Analysis", "Bitcoin Analytics", "Spellbook & Dune API"] },
-  { num: "06", title: "Footprint Analytics", lessons: 3, topics: ["Pengenalan Footprint", "No-Code Dashboard", "SQL Mode di Footprint"] },
+  { num: "01", title: "SQL Fundamentals", level: "Beginner", lessons: 12, topics: ["Apa itu Database & SQL?", "SELECT & FROM", "WHERE & Filter", "ORDER BY", "Fungsi Agregat", "JOIN Tabel", "Subquery & CTE", "Window Functions", "Date & Time Functions", "String & Konversi", "CASE WHEN & UNION", "DuneSQL (Trino)"] },
+  { num: "02", title: "Dune Analytics", level: "Intermediate", lessons: 4, topics: ["Apa itu Dune Analytics?", "Raw vs Decoded vs Spellbook", "Membuat Visualisasi", "Menyusun Dashboard"] },
+  { num: "03", title: "On-Chain Analysis", level: "Intermediate", lessons: 4, topics: ["Analisis Token ERC20", "Analisis NFT Marketplace", "Analisis Protokol DeFi", "Memahami & Mendeteksi MEV"] },
+  { num: "04", title: "Advanced On-Chain Analysis", level: "Advanced", lessons: 4, topics: ["Analisis Multi-Chain & Bridge", "Wallet Clustering & Smart Money", "Bitcoin On-Chain (UTXO)", "Dune API & Spellbook"] },
+  { num: "05", title: "Footprint Analytics", level: "Intermediate", lessons: 3, topics: ["Pengenalan Footprint Analytics", "No-Code Dashboard Builder", "SQL Mode di Footprint"] },
 ];
 
 const stats = [
   { value: "5", label: "Kursus" },
-  { value: "30+", label: "Lesson" },
+  { value: "27+", label: "Lesson" },
   { value: "85%", label: "Nilai Kelulusan" },
   { value: "🎓", label: "Sertifikat" },
 ];
+
+const levelColor: Record<string, string> = {
+  Beginner: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
+  Intermediate: "bg-amber-500/15 text-amber-400 border-amber-500/25",
+  Advanced: "bg-red-500/15 text-red-400 border-red-500/25",
+};
 
 export default function HomePage() {
   return (
@@ -169,7 +174,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-slate-100 mb-4">Kurikulum Lengkap</h2>
-            <p className="text-slate-400 text-sm">6 modul terstruktur dengan total 30+ lesson</p>
+            <p className="text-slate-400 text-sm">5 kursus terstruktur dari Beginner hingga Advanced</p>
           </div>
           <div className="space-y-3">
             {curriculum.map((m) => (
@@ -183,7 +188,10 @@ export default function HomePage() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
-                      <h3 className="font-semibold text-slate-200 text-sm">{m.title}</h3>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-slate-200 text-sm">{m.title}</h3>
+                        <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${levelColor[m.level]}`}>{m.level}</span>
+                      </div>
                       <span className="text-xs text-slate-500 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full">{m.lessons} lesson</span>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
