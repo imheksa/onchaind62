@@ -43,90 +43,66 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 px-4 py-12">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-[#0f172a] px-4 py-12 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="w-full max-w-md relative z-10">
+        {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 font-bold text-2xl text-gray-900 mb-6">
-            <span>⛓️</span>
-            <span>OnChain <span className="text-indigo-600">Academy</span></span>
+          <Link href="/" className="inline-flex items-center gap-2.5 mb-6">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center text-white font-bold shadow-lg shadow-violet-900/50">
+              ⛓
+            </div>
+            <span className="font-bold text-xl text-slate-100">
+              OnChain <span className="text-violet-400">Academy</span>
+            </span>
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">Buat Akun Baru</h1>
-          <p className="text-gray-500 mt-2">Mulai belajar on-chain analysis hari ini</p>
+          <h1 className="text-2xl font-bold text-slate-100">Buat Akun Baru</h1>
+          <p className="text-slate-400 mt-2 text-sm">Mulai belajar on-chain analysis hari ini — gratis</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg shadow-gray-100 border border-gray-100 p-8">
+        <div className="bg-[#1e293b] rounded-2xl border border-slate-700/50 p-8 shadow-2xl shadow-black/40">
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
+              <div className="bg-red-950/50 border border-red-800/50 text-red-400 text-sm rounded-lg px-4 py-3">
                 {error}
               </div>
             )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                placeholder="Nama Anda"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                placeholder="nama@email.com"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                placeholder="Minimal 8 karakter"
-                minLength={8}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
-              <input
-                type="password"
-                name="confirm"
-                value={form.confirm}
-                onChange={handleChange}
-                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                placeholder="Ulangi password"
-                required
-              />
-            </div>
+            {[
+              { label: "Nama Lengkap", name: "name", type: "text", placeholder: "Nama Anda" },
+              { label: "Email", name: "email", type: "email", placeholder: "nama@email.com" },
+              { label: "Password", name: "password", type: "password", placeholder: "Minimal 8 karakter", minLength: 8 },
+              { label: "Konfirmasi Password", name: "confirm", type: "password", placeholder: "Ulangi password" },
+            ].map((field) => (
+              <div key={field.name}>
+                <label className="block text-sm font-medium text-slate-300 mb-2">{field.label}</label>
+                <input
+                  type={field.type}
+                  name={field.name}
+                  value={form[field.name as keyof typeof form]}
+                  onChange={handleChange}
+                  className="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                  placeholder={field.placeholder}
+                  minLength={field.minLength}
+                  required
+                />
+              </div>
+            ))}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold py-3 rounded-lg hover:from-violet-500 hover:to-purple-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-900/30"
             >
               {loading ? "Mendaftar..." : "Daftar Sekarang"}
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-slate-500 mt-6">
             Sudah punya akun?{" "}
-            <Link href="/login" className="text-indigo-600 font-medium hover:underline">
+            <Link href="/login" className="text-violet-400 font-medium hover:text-violet-300">
               Masuk
             </Link>
           </p>

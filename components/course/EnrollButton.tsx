@@ -34,7 +34,7 @@ export function EnrollButton({ courseId, firstLessonUrl, label = "Mulai Kursus" 
     <button
       onClick={handleEnroll}
       disabled={loading}
-      className="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+      className="text-sm font-medium px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-500 hover:to-purple-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-violet-900/30"
     >
       {loading ? "Memproses..." : label}
     </button>

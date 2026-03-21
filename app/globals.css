@@ -1,77 +1,88 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --bg-base: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #263347;
+  --border: #334155;
+  --border-subtle: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #7c3aed;
+  --accent-light: #a78bfa;
+  --accent-hover: #6d28d9;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Prose styles untuk lesson content */
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* Prose (lesson content) - dark theme */
 .prose {
   max-width: 100%;
-  color: #374151;
-  line-height: 1.75;
+  color: #cbd5e1;
+  line-height: 1.8;
 }
 
-.prose h1 { font-size: 2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #111827; }
-.prose h2 { font-size: 1.5rem; font-weight: 700; margin: 1.5rem 0 0.75rem; color: #111827; }
-.prose h3 { font-size: 1.25rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: #111827; }
-.prose p { margin: 0.75rem 0; }
-.prose ul { list-style: disc; padding-left: 1.5rem; margin: 0.75rem 0; }
-.prose ol { list-style: decimal; padding-left: 1.5rem; margin: 0.75rem 0; }
-.prose li { margin: 0.25rem 0; }
+.prose h1 { font-size: 1.875rem; font-weight: 700; margin: 2rem 0 1rem; color: #f1f5f9; letter-spacing: -0.02em; }
+.prose h2 { font-size: 1.4rem; font-weight: 700; margin: 1.75rem 0 0.75rem; color: #f1f5f9; letter-spacing: -0.01em; padding-bottom: 0.5rem; border-bottom: 1px solid #1e293b; }
+.prose h3 { font-size: 1.15rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: #e2e8f0; }
+.prose p { margin: 0.875rem 0; }
+.prose ul { list-style: none; padding-left: 0; margin: 0.875rem 0; }
+.prose ul li { padding-left: 1.25rem; position: relative; margin: 0.375rem 0; }
+.prose ul li::before { content: "▸"; position: absolute; left: 0; color: #7c3aed; font-size: 0.75rem; top: 0.15em; }
+.prose ol { list-style: decimal; padding-left: 1.5rem; margin: 0.875rem 0; }
+.prose ol li { margin: 0.375rem 0; }
 .prose code {
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 0.875rem;
-  font-family: 'Courier New', monospace;
-  color: #6366f1;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-size: 0.85em;
+  font-family: var(--font-geist-mono), 'Fira Code', monospace;
+  color: #a78bfa;
 }
 .prose pre {
-  background: #1e1e2e;
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
   overflow-x: auto;
-  margin: 1rem 0;
+  margin: 1.25rem 0;
 }
 .prose pre code {
   background: none;
   border: none;
   padding: 0;
-  color: #cdd6f4;
+  color: #e6edf3;
   font-size: 0.875rem;
+  line-height: 1.7;
 }
 .prose blockquote {
-  border-left: 4px solid #6366f1;
-  padding-left: 1rem;
-  color: #6b7280;
-  font-style: italic;
-  margin: 1rem 0;
+  border-left: 3px solid #7c3aed;
+  background: #1e293b;
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1.25rem;
+  color: #94a3b8;
+  margin: 1.25rem 0;
+  font-style: normal;
 }
-.prose strong { font-weight: 700; color: #111827; }
-.prose a { color: #6366f1; text-decoration: underline; }
-.prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-.prose th { background: #f3f4f6; padding: 0.5rem 1rem; text-align: left; font-weight: 600; border: 1px solid #e5e7eb; }
-.prose td { padding: 0.5rem 1rem; border: 1px solid #e5e7eb; }
-.prose hr { border: 0; border-top: 1px solid #e5e7eb; margin: 1.5rem 0; }
+.prose strong { font-weight: 700; color: #f1f5f9; }
+.prose a { color: #a78bfa; text-decoration: none; border-bottom: 1px solid #7c3aed; }
+.prose a:hover { color: #c4b5fd; }
+.prose table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.875rem; }
+.prose th { background: #1e293b; padding: 0.625rem 1rem; text-align: left; font-weight: 600; border: 1px solid #334155; color: #e2e8f0; }
+.prose td { padding: 0.625rem 1rem; border: 1px solid #334155; color: #94a3b8; }
+.prose tr:nth-child(even) td { background: #172033; }
+.prose hr { border: 0; border-top: 1px solid #334155; margin: 2rem 0; }
