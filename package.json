@@ -30,6 +30,12 @@
   "overrides": {
     "next": "15.3.9"
   },
+  "optionalDependencies": {
+    "lightningcss-linux-x64-gnu": "1.32.0",
+    "lightningcss-linux-x64-musl": "1.32.0",
+    "@next/swc-linux-x64-gnu": "15.3.9",
+    "@next/swc-linux-x64-musl": "15.3.9"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@tailwindcss/postcss": "^4",
