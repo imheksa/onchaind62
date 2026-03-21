@@ -123,7 +123,84 @@ Urutan penulisan klausa SQL bersifat wajib (tidak dapat diubah), namun hanya \`S
 | **DuneSQL** | Dialek SQL berbasis Trino yang digunakan di Dune Analytics |
 | **Wei** | Satuan terkecil ETH; 1 ETH = 10¹⁸ wei |
 
-Pada lesson berikutnya, Anda akan mempelajari klausa \`SELECT\` dan \`FROM\` secara mendalam — fondasi dari setiap query SQL.`;
+Pada lesson berikutnya, Anda akan mempelajari klausa \`SELECT\` dan \`FROM\` secara mendalam — fondasi dari setiap query SQL.
+
+---
+
+## 📝 Kuis Ringkas
+
+Jawab pertanyaan berikut secara mandiri untuk mengukur pemahaman Anda sebelum melanjutkan ke lesson berikutnya.
+
+**1. Apa perbedaan mendasar antara kolom dan baris dalam sebuah tabel database?**
+
+> **Jawaban:** Kolom mendefinisikan kategori atau atribut data (contoh: \`tx_hash\`, \`value\`, \`block_time\`), sedangkan baris merepresentasikan satu catatan atau entitas tunggal — misalnya, satu transaksi blockchain.
+
+**2. Mengapa nilai ETH disimpan dalam satuan wei, bukan langsung dalam ETH?**
+
+> **Jawaban:** Karena komputer tidak dapat merepresentasikan angka desimal dengan sempurna (*floating point error*). Dengan menyimpan nilai sebagai bilangan bulat dalam satuan wei, akurasi perhitungan terjamin. Konversi: \`nilai_wei / 1e18 = nilai_eth\`.
+
+**3. Sebutkan dua platform analisis blockchain yang menggunakan SQL sebagai antarmuka query!**
+
+> **Jawaban:** Dune Analytics (menggunakan DuneSQL/Trino), Footprint Analytics, Flipside Crypto, dan Allium — semuanya menggunakan SQL. Jawaban apa pun yang menyebut dua di antaranya dianggap benar.
+
+**4. Apa yang dimaksud dengan "decoding" data blockchain dalam konteks platform seperti Dune?**
+
+> **Jawaban:** Decoding adalah proses mengubah data transaksi mentah (hexadecimal/binary) menjadi format tabel yang terbaca dan dapat di-query dengan SQL. Platform seperti Dune melakukan decoding secara otomatis berdasarkan ABI (*Application Binary Interface*) smart contract.
+
+---
+
+## 🎯 Tantangan Praktik
+
+Buka **Dune Analytics** (dune.com) dan coba selesaikan tantangan berikut menggunakan Query Editor.
+
+### Tantangan 1 — Eksplorasi Struktur Tabel
+
+Jalankan query berikut dan perhatikan seluruh kolom yang tersedia:
+
+\`\`\`sql
+SELECT *
+FROM ethereum.transactions
+LIMIT 5;
+\`\`\`
+
+**Pertanyaan eksplorasi:**
+- Kolom apa saja yang tersedia pada tabel \`ethereum.transactions\`?
+- Kolom mana yang menyimpan nilai transaksi dalam satuan wei?
+- Apakah semua baris memiliki nilai pada kolom \`to\`? Mengapa ada yang kosong?
+
+---
+
+### Tantangan 2 — Konversi Wei ke ETH
+
+Modifikasi query berikut sehingga kolom \`jumlah_eth\` menampilkan nilai yang benar:
+
+\`\`\`sql
+SELECT
+    hash,
+    "from"       AS pengirim,
+    "to"         AS penerima,
+    value / ???  AS jumlah_eth,  -- ganti ??? dengan nilai yang tepat
+    block_time
+FROM ethereum.transactions
+WHERE value > 0
+LIMIT 20;
+\`\`\`
+
+**Target hasil:** Kolom \`jumlah_eth\` seharusnya menampilkan angka antara 0 hingga ribuan (bukan angka 18 digit).
+
+**Petunjuk:** 1 ETH = 10¹⁸ wei, sehingga pembagi yang tepat adalah \`1e18\`.
+
+---
+
+### Tantangan 3 (Bonus) — Temukan Transaksi Terbesar
+
+Tulis query secara mandiri untuk menjawab pertanyaan berikut:
+
+> *"Tampilkan 10 transaksi dengan nilai ETH terbesar yang terjadi dalam 24 jam terakhir."*
+
+**Kolom yang perlu ditampilkan:** \`hash\`, \`pengirim\` (from), \`penerima\` (to), \`jumlah_eth\`, \`block_time\`
+
+**Petunjuk:** Gunakan \`ORDER BY\` dan \`LIMIT\` yang telah Anda pelajari di ringkasan lesson ini.`;
 
 const L_SELECT_FROM = `# SELECT & FROM — Cara Membaca Data
 
