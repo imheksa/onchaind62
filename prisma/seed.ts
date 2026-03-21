@@ -3,86 +3,127 @@ const prisma = new PrismaClient();
 
 // ─── LESSON CONTENT ──────────────────────────────────────────────────────────
 
-const L_APA_ITU_DB = `# Apa itu Database & SQL?
+const L_APA_ITU_DB = `# Pengantar: Database, Tabel, dan SQL
 
-## Bayangkan Sebuah Lemari Arsip
+> **Ringkasan:** Database adalah sistem penyimpanan data terstruktur. Data di dalamnya diorganisasikan dalam bentuk tabel dengan baris dan kolom. SQL adalah bahasa standar untuk mengambil dan menganalisis data tersebut — termasuk data blockchain di platform seperti Dune Analytics.
 
-Sebelum komputer ada, kantor menyimpan data dalam **lemari arsip** besar. Setiap laci berisi folder-folder, dan setiap folder berisi dokumen.
+---
 
-**Database** adalah versi digital dari lemari arsip tersebut — tempat menyimpan data secara terorganisir agar mudah dicari dan diambil kembali.
+## Apa Itu Database?
 
-## Apa itu Tabel?
+**Database** (basis data) adalah sistem yang dirancang untuk menyimpan, mengelola, dan mengambil data secara efisien dan terstruktur.
 
-Di dalam database, data disimpan dalam **tabel** — persis seperti spreadsheet Excel.
+Bayangkan sebuah perpustakaan digital: setiap buku memiliki tempat yang jelas, setiap informasi tercatat rapi, dan Anda dapat menemukan data apa pun dalam hitungan detik — itulah fungsi database.
 
-| tx_hash | from_address | to_address | value_eth | block_time |
-|---------|-------------|------------|-----------|------------|
-| 0xabc.. | 0x123.. | 0x456.. | 1.5 | 2024-01-01 10:00 |
-| 0xdef.. | 0x789.. | 0xabc.. | 0.25 | 2024-01-01 10:05 |
-| 0xghi.. | 0x456.. | 0x123.. | 3.0 | 2024-01-01 10:10 |
+Dalam konteks blockchain, platform seperti Dune Analytics telah mengindeks seluruh riwayat transaksi Ethereum, Polygon, Arbitrum, dan puluhan jaringan lainnya ke dalam database yang dapat di-query secara langsung.
 
-- **Tabel** = lemari/sheet Excel
-- **Kolom (Column)** = kategori data (tx_hash, value, dll)
-- **Baris (Row)** = satu data/transaksi
+---
 
-## Apa itu SQL?
+## Struktur Data: Tabel, Kolom, dan Baris
 
-**SQL** (dibaca: "sequel" atau "es-kyu-el") singkatan dari **Structured Query Language**.
+Data dalam database disusun dalam bentuk **tabel**, mirip dengan spreadsheet. Setiap tabel terdiri dari:
 
-SQL adalah **bahasa** yang digunakan untuk "berbicara" dengan database. Seperti kita memerintahkan asisten: *"Tolong ambilkan semua transaksi di atas 1 ETH dari bulan Januari!"*
+- **Kolom (Column)**: mendefinisikan kategori atau atribut data
+- **Baris (Row)**: merepresentasikan satu catatan atau entitas
 
-Dalam SQL, perintah itu ditulis:
+Contoh tabel \`ethereum.transactions\` di Dune Analytics:
+
+| tx_hash | from_address | to_address | value (wei) | block_time |
+|---------|-------------|------------|-------------|------------|
+| 0xabc123.. | 0x111aaa.. | 0x222bbb.. | 1500000000000000000 | 2024-01-15 10:00:00 |
+| 0xdef456.. | 0x333ccc.. | 0x444ddd.. | 500000000000000000 | 2024-01-15 10:05:12 |
+| 0xghi789.. | 0x555eee.. | 0x666fff.. | 3000000000000000000 | 2024-01-15 10:10:45 |
+
+> **Catatan Penting — Satuan Wei:** Nilai ETH di blockchain disimpan dalam satuan **wei**, bukan ETH. Konversi: 1 ETH = 10¹⁸ wei (1,000,000,000,000,000,000). Selalu bagi nilai \`value\` dengan \`1e18\` untuk mendapatkan jumlah dalam ETH.
+
+---
+
+## Apa Itu SQL?
+
+**SQL** (*Structured Query Language*, dibaca "sequel") adalah bahasa standar untuk berkomunikasi dengan database relasional. SQL memungkinkan pengguna untuk:
+
+1. **Mengambil data** (SELECT) — mengekstrak informasi yang dibutuhkan
+2. **Memfilter data** (WHERE) — membatasi hasil berdasarkan kondisi tertentu
+3. **Mengelompokkan data** (GROUP BY) — merangkum data per kategori
+4. **Mengurutkan data** (ORDER BY) — menyusun hasil sesuai kebutuhan
+
+Contoh: untuk menemukan semua transaksi bernilai lebih dari 10 ETH dalam 7 hari terakhir, Anda cukup menuliskan:
 
 \`\`\`sql
-SELECT *
+SELECT
+    hash         AS tx_hash,
+    "from"       AS pengirim,
+    "to"         AS penerima,
+    value / 1e18 AS jumlah_eth,
+    block_time
 FROM ethereum.transactions
-WHERE value / 1e18 > 1
-  AND block_time >= '2024-01-01';
+WHERE value / 1e18 > 10
+  AND block_time >= NOW() - INTERVAL '7' DAY
+ORDER BY value DESC
+LIMIT 50;
 \`\`\`
 
-## SQL vs NoSQL vs Blockchain Data
+---
 
-| Jenis | Contoh Platform | Kegunaan | Struktur |
-|-------|----------------|----------|---------|
-| **SQL** | PostgreSQL, MySQL | Data terstruktur | Tabel dengan baris & kolom |
-| **NoSQL** | MongoDB, Redis | Data fleksibel | Dokumen, key-value |
-| **Blockchain** | Dune, Footprint | Data on-chain immutable | Tabel (mirip SQL) |
+## Mengapa SQL Penting bagi Analis On-Chain?
 
-Data blockchain di Dune Analytics disimpan dan di-query menggunakan **SQL** — itulah kenapa belajar SQL adalah langkah pertama yang wajib!
+Seluruh platform analisis data blockchain terkemuka menggunakan SQL sebagai antarmuka utama:
 
-## Kenapa SQL Penting untuk On-Chain Analysis?
+| Platform | Dialek SQL | Keunggulan |
+|----------|-----------|------------|
+| **Dune Analytics** | Trino (DuneSQL) | Data multi-chain terlengkap, komunitas besar |
+| **Footprint Analytics** | Standard SQL | Antarmuka no-code + SQL, fokus DeFi & GameFi |
+| **Flipside Crypto** | Standard SQL | Reward program untuk analis |
+| **Allium** | Standard SQL | Data berkualitas tinggi, API-first |
 
-Semua platform analisis blockchain populer menggunakan SQL:
-- **Dune Analytics** → SQL (Trino dialect)
-- **Footprint Analytics** → SQL
-- **Flipside** → SQL
-- **Allium** → SQL
+Dengan menguasai SQL, Anda dapat menjawab pertanyaan analisis seperti:
 
-Dengan SQL, kamu bisa menjawab pertanyaan seperti:
-- 🐋 Siapa whale terbesar di Uniswap minggu ini?
-- 📈 Berapa total volume DEX di Ethereum 30 hari terakhir?
-- 🔍 Apakah ada pattern sandwich attack di block ini?
+- Siapa saja *whale* terbesar yang bertransaksi di Uniswap minggu ini?
+- Berapa total volume DEX di seluruh jaringan dalam 30 hari terakhir?
+- Protokol DeFi mana yang mengalami pertumbuhan TVL tertinggi bulan ini?
+- Apakah ada aktivitas *sandwich attack* yang terdeteksi dalam blok tertentu?
 
-## Anatomi Tabel Blockchain
+---
 
+## Perbandingan Jenis Database
+
+| Jenis | Contoh | Struktur | Penggunaan dalam Web3 |
+|-------|--------|----------|----------------------|
+| **Relasional (SQL)** | PostgreSQL, Trino | Tabel terstruktur | Dune, Footprint, Flipside |
+| **Non-relasional (NoSQL)** | MongoDB, Redis | Dokumen, key-value | Node RPC, cache sistem |
+| **Graph** | The Graph Protocol | Node dan Edge | Query smart contract events |
+
+Data blockchain mentah (*raw data*) pada dasarnya tidak terstruktur. Platform seperti Dune telah melakukan proses **decoding** dan **normalisasi** sehingga data dapat di-query dengan SQL standar.
+
+---
+
+## Anatomi Query SQL
+
+Setiap query SQL memiliki struktur yang konsisten dan dapat dibaca seperti kalimat bahasa Inggris:
+
+\`\`\`sql
+SELECT kolom_yang_diinginkan      -- PILIH kolom ini
+FROM nama_tabel                   -- DARI tabel ini
+WHERE kondisi_filter              -- DENGAN syarat ini
+ORDER BY kolom_urutan DESC        -- URUTKAN berdasarkan ini
+LIMIT 100;                        -- BATASI hasilnya
 \`\`\`
-Tabel: ethereum.transactions
-┌─────────────┬──────────────┬──────────────┬───────────┬────────────┐
-│   tx_hash   │     from     │      to      │   value   │ block_time │
-├─────────────┼──────────────┼──────────────┼───────────┼────────────┤
-│ 0xabc123.. │ 0x111aaa..  │ 0x222bbb..  │ 1.5e18    │ 2024-01-01 │
-│ 0xdef456.. │ 0x333ccc..  │ 0x444ddd..  │ 0.5e18    │ 2024-01-01 │
-└─────────────┴──────────────┴──────────────┴───────────┴────────────┘
-\`\`\`
 
-> ⚠️ **Catatan Penting**: Nilai ETH di blockchain disimpan dalam satuan **wei** (bukan ETH). 1 ETH = 1,000,000,000,000,000,000 wei = 1e18 wei. Selalu bagi dengan 1e18 untuk mendapatkan nilai ETH!
+Urutan penulisan klausa SQL bersifat wajib (tidak dapat diubah), namun hanya \`SELECT\` dan \`FROM\` yang bersifat wajib — klausa lainnya opsional.
+
+---
 
 ## Ringkasan
 
-✅ Database = tempat menyimpan data secara terorganisir
-✅ Tabel = kumpulan data dalam bentuk baris dan kolom
-✅ SQL = bahasa untuk query (mengambil/menganalisis) data
-✅ Data blockchain bisa di-query dengan SQL di platform seperti Dune`;
+| Konsep | Definisi |
+|--------|----------|
+| **Database** | Sistem penyimpanan data yang terorganisir dan dapat di-query |
+| **Tabel** | Struktur data dalam bentuk baris dan kolom |
+| **SQL** | Bahasa standar untuk mengambil dan menganalisis data |
+| **DuneSQL** | Dialek SQL berbasis Trino yang digunakan di Dune Analytics |
+| **Wei** | Satuan terkecil ETH; 1 ETH = 10¹⁸ wei |
+
+Pada lesson berikutnya, Anda akan mempelajari klausa \`SELECT\` dan \`FROM\` secara mendalam — fondasi dari setiap query SQL.`;
 
 const L_SELECT_FROM = `# SELECT & FROM — Cara Membaca Data
 
