@@ -62,7 +62,7 @@ export function BlockchainCanvas() {
         if (p.x < 0 || p.x > w) p.vx *= -1;
         if (p.y < 0 || p.y > h) p.vy *= -1;
 
-        const glowR = p.radius + Math.sin(p.pulse) * 1.5;
+        const glowR = Math.max(0.5, p.radius + Math.sin(p.pulse) * 1.5);
         const alpha = p.opacity + Math.sin(p.pulse) * 0.15;
 
         const grd = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR * 4);
