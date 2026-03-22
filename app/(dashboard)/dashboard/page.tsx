@@ -49,11 +49,11 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
         {stats.map((s) => (
-          <div key={s.label} className={`${s.bg} border ${s.border} rounded-xl p-5`}>
-            <div className={`text-3xl font-bold ${s.color}`}>{s.value}</div>
-            <div className="text-sm text-slate-400 mt-1">{s.label}</div>
+          <div key={s.label} className={`${s.bg} border ${s.border} rounded-xl p-4 md:p-5`}>
+            <div className={`text-2xl md:text-3xl font-bold ${s.color}`}>{s.value}</div>
+            <div className="text-xs md:text-sm text-slate-400 mt-1">{s.label}</div>
           </div>
         ))}
       </div>

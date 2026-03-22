@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { useState, useEffect } from "react";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: (
@@ -26,11 +27,27 @@ type User = {
 
 export function Sidebar({ user }: { user?: User }) {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
-  return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-[#0f172a] border-r border-slate-800 flex flex-col z-40">
+  // Close sidebar on route change (mobile)
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Prevent body scroll when sidebar open on mobile
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  const sidebarContent = (
+    <aside className="flex flex-col h-full w-64 bg-[#0f172a] border-r border-slate-800">
       {/* Logo */}
-      <div className="p-6 border-b border-slate-800">
+      <div className="p-5 border-b border-slate-800 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-violet-900/40">
             ⛓
@@ -39,6 +56,16 @@ export function Sidebar({ user }: { user?: User }) {
             OnChain <span className="text-violet-400">Academy</span>
           </span>
         </Link>
+        {/* Close button (mobile only) */}
+        <button
+          onClick={() => setOpen(false)}
+          className="md:hidden text-slate-500 hover:text-slate-300 p-1"
+          aria-label="Tutup menu"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
       </div>
 
       {/* Navigation */}
@@ -86,5 +113,50 @@ export function Sidebar({ user }: { user?: User }) {
         </button>
       </div>
     </aside>
+  );
+
+  return (
+    <>
+      {/* Mobile top bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 h-14 bg-[#0f172a] border-b border-slate-800 flex items-center px-4 gap-3">
+        <button
+          onClick={() => setOpen(true)}
+          className="text-slate-400 hover:text-slate-200 p-1"
+          aria-label="Buka menu"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center text-white text-xs font-bold">
+            ⛓
+          </div>
+          <span className="font-bold text-sm text-slate-100">
+            OnChain <span className="text-violet-400">Academy</span>
+          </span>
+        </Link>
+      </div>
+
+      {/* Desktop sidebar */}
+      <div className="hidden md:fixed md:flex md:left-0 md:top-0 md:h-full md:w-64 md:z-40">
+        {sidebarContent}
+      </div>
+
+      {/* Mobile drawer */}
+      {open && (
+        <>
+          {/* Overlay */}
+          <div
+            className="md:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+          />
+          {/* Drawer */}
+          <div className="md:hidden fixed left-0 top-0 h-full z-50 w-64 shadow-2xl">
+            {sidebarContent}
+          </div>
+        </>
+      )}
+    </>
   );
 }
