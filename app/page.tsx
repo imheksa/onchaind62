@@ -101,20 +101,20 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-medium px-4 py-2 rounded-full mb-8">
             <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-pulse" />
-            Free platform untuk belajar onchain dari dasar sampai mahir
+            Free platform untuk belajar dasar-dasar onchain analyst
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 tracking-tight">
-            Playground pertama{" "}
+            Playground pertama untuk jadi expert,{" "}
             <br />
             <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-              untuk jadi expert
+              hasil tergantung anda
             </span>
           </h1>
 
           <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
             Mulai dari SQL dasar, query data blockchain di Dune, hingga analisis DeFi dan NFT.
-            Gratis, terstruktur, dan langsung praktik.
+            Terstruktur, dan langsung praktik.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
