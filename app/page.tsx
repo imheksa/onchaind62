@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { BlockchainCanvas } from "@/components/ui/BlockchainCanvas";
+import dynamic from "next/dynamic";
+
+const BlockchainCanvas = dynamic(
+  () => import("@/components/ui/BlockchainCanvas").then((m) => m.BlockchainCanvas),
+  { ssr: false }
+);
 
 const features = [
   {
