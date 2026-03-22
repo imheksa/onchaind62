@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-interface Node {
+interface Particle {
   x: number;
   y: number;
   vx: number;
@@ -15,7 +15,7 @@ interface Node {
 
 const NODE_COUNT = 55;
 const CONNECTION_DIST = 160;
-const NODE_COLOR = "139, 92, 246"; // violet-500
+const NODE_COLOR = "139, 92, 246";
 
 export function BlockchainCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -27,19 +27,19 @@ export function BlockchainCanvas() {
     if (!ctx) return;
 
     let animId: number;
-    let nodes: Node[] = [];
+    let particles: Particle[] = [];
 
     function resize() {
-      if (!canvas) return;
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      canvas!.width = canvas!.offsetWidth || window.innerWidth;
+      canvas!.height = canvas!.offsetHeight || window.innerHeight;
     }
 
-    function initNodes() {
-      if (!canvas) return;
-      nodes = Array.from({ length: NODE_COUNT }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+    function initParticles() {
+      const w = canvas!.width;
+      const h = canvas!.height;
+      particles = Array.from({ length: NODE_COUNT }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         radius: Math.random() * 2 + 1,
@@ -50,61 +50,55 @@ export function BlockchainCanvas() {
     }
 
     function draw() {
-      if (!canvas || !ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas!.width;
+      const h = canvas!.height;
+      ctx!.clearRect(0, 0, w, h);
 
-      // Update and draw nodes
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        n.pulse += n.pulseSpeed;
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.pulse += p.pulseSpeed;
 
-        // Bounce
-        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
-        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
 
-        const glowRadius = n.radius + Math.sin(n.pulse) * 1.5;
-        const alpha = n.opacity + Math.sin(n.pulse) * 0.15;
+        const glowR = p.radius + Math.sin(p.pulse) * 1.5;
+        const alpha = p.opacity + Math.sin(p.pulse) * 0.15;
 
-        // Glow
-        const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowRadius * 4);
+        const grd = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR * 4);
         grd.addColorStop(0, `rgba(${NODE_COLOR}, ${alpha})`);
         grd.addColorStop(1, `rgba(${NODE_COLOR}, 0)`);
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, glowRadius * 4, 0, Math.PI * 2);
-        ctx.fillStyle = grd;
-        ctx.fill();
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, glowR * 4, 0, Math.PI * 2);
+        ctx!.fillStyle = grd;
+        ctx!.fill();
 
-        // Core dot
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, glowRadius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${NODE_COLOR}, ${alpha + 0.3})`;
-        ctx.fill();
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, glowR, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${NODE_COLOR}, ${Math.min(alpha + 0.3, 1)})`;
+        ctx!.fill();
       }
 
-      // Draw connections
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i];
-          const b = nodes[j];
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i];
+          const b = particles[j];
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < CONNECTION_DIST) {
             const alpha = (1 - dist / CONNECTION_DIST) * 0.25;
-
-            // Animated dash offset for "data flowing" effect
-            ctx.save();
-            ctx.setLineDash([4, 8]);
-            ctx.lineDashOffset = -Date.now() / 60;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(${NODE_COLOR}, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-            ctx.restore();
+            ctx!.save();
+            ctx!.setLineDash([4, 8]);
+            ctx!.lineDashOffset = -(Date.now() / 60);
+            ctx!.beginPath();
+            ctx!.moveTo(a.x, a.y);
+            ctx!.lineTo(b.x, b.y);
+            ctx!.strokeStyle = `rgba(${NODE_COLOR}, ${alpha})`;
+            ctx!.lineWidth = 0.8;
+            ctx!.stroke();
+            ctx!.restore();
           }
         }
       }
@@ -113,12 +107,12 @@ export function BlockchainCanvas() {
     }
 
     resize();
-    initNodes();
+    initParticles();
     draw();
 
     const ro = new ResizeObserver(() => {
       resize();
-      initNodes();
+      initParticles();
     });
     ro.observe(canvas);
 
@@ -132,7 +126,7 @@ export function BlockchainCanvas() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.55 }}
     />
   );
 }
