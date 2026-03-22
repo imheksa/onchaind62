@@ -2,15 +2,22 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { Suspense } from "react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const params = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const verified = params.get("verified") === "1";
+  const registered = params.get("registered") === "1";
+  const linkError = params.get("error");
+
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -26,7 +33,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (result?.error) {
-      setError("Email atau password salah");
+      setError("Email/password salah atau email belum diverifikasi");
     } else {
       router.push("/dashboard");
     }
@@ -53,6 +60,26 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-[#1e293b] rounded-2xl border border-slate-700/50 p-8 shadow-2xl shadow-black/40">
+          {verified && (
+            <div className="bg-emerald-950/50 border border-emerald-700/50 text-emerald-400 text-sm rounded-lg px-4 py-3 mb-5">
+              ✓ Email berhasil diverifikasi! Silakan masuk.
+            </div>
+          )}
+          {registered && !verified && (
+            <div className="bg-sky-950/50 border border-sky-700/50 text-sky-400 text-sm rounded-lg px-4 py-3 mb-5">
+              Cek email Anda untuk link verifikasi sebelum masuk.
+            </div>
+          )}
+          {linkError === "link-expired" && (
+            <div className="bg-amber-950/50 border border-amber-700/50 text-amber-400 text-sm rounded-lg px-4 py-3 mb-5">
+              Link verifikasi sudah kedaluwarsa. Daftar ulang untuk mendapatkan link baru.
+            </div>
+          )}
+          {linkError === "invalid-link" && (
+            <div className="bg-red-950/50 border border-red-800/50 text-red-400 text-sm rounded-lg px-4 py-3 mb-5">
+              Link verifikasi tidak valid.
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
               <div className="bg-red-950/50 border border-red-800/50 text-red-400 text-sm rounded-lg px-4 py-3">
@@ -102,5 +129,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

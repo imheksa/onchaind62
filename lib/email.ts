@@ -2,6 +2,68 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+export async function sendVerificationEmail({
+  to,
+  name,
+  verifyUrl,
+}: {
+  to: string;
+  name: string;
+  verifyUrl: string;
+}) {
+  const { data, error } = await resend.emails.send({
+    from: "OnChain Academy <noreply@onchain-academy.com>",
+    to,
+    subject: "Verifikasi Email Anda — OnChain Academy",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head><meta charset="utf-8" /><title>Verifikasi Email</title></head>
+        <body style="font-family: Arial, sans-serif; background: #f9fafb; margin: 0; padding: 0;">
+          <div style="max-width: 560px; margin: 40px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+
+            <div style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); padding: 36px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 24px;">⛓ OnChain Academy</h1>
+              <p style="color: rgba(255,255,255,0.85); margin: 8px 0 0; font-size: 14px;">Platform Belajar On-Chain Analysis</p>
+            </div>
+
+            <div style="padding: 36px;">
+              <p style="font-size: 17px; color: #111827; margin-top: 0;">Halo, <strong>${name}</strong>!</p>
+
+              <p style="color: #4b5563; line-height: 1.6; margin-bottom: 28px;">
+                Terima kasih sudah mendaftar di OnChain Academy. Satu langkah lagi —
+                klik tombol di bawah untuk memverifikasi email Anda dan mulai belajar.
+              </p>
+
+              <div style="text-align: center; margin: 32px 0;">
+                <a href="${verifyUrl}"
+                   style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 14px 36px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; display: inline-block;">
+                  Verifikasi Email Saya
+                </a>
+              </div>
+
+              <p style="color: #9ca3af; font-size: 13px; line-height: 1.6;">
+                Link ini berlaku selama <strong>24 jam</strong>. Jika Anda tidak mendaftar, abaikan email ini.<br/><br/>
+                Jika tombol tidak berfungsi, salin link berikut ke browser:<br/>
+                <a href="${verifyUrl}" style="color: #6366f1; word-break: break-all; font-size: 12px;">${verifyUrl}</a>
+              </p>
+            </div>
+
+            <div style="border-top: 1px solid #e5e7eb; padding: 18px 36px; text-align: center;">
+              <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+                © ${new Date().getFullYear()} OnChain Academy · Dibuat untuk komunitas Web3 Indonesia
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  });
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
 export async function sendCertificateEmail({
   to,
   name,
