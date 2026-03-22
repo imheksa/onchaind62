@@ -122,7 +122,7 @@ export default function HomePage() {
               href="/register"
               className="bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 transition-all text-base shadow-xl shadow-violet-900/40"
             >
-              Mulai Belajar Gratis →
+              Mulai Langkah Pertama Mu
             </Link>
             <Link
               href="/courses"
@@ -172,8 +172,8 @@ export default function HomePage() {
       <section className="py-20 px-6 bg-slate-900/50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-slate-100 mb-4">Kurikulum Lengkap</h2>
-            <p className="text-slate-400 text-sm">5 kursus terstruktur dari Beginner hingga Advanced</p>
+            <h2 className="text-3xl font-bold text-slate-100 mb-4">Kurikulum Dasar</h2>
+            <p className="text-slate-400 text-sm">5 kursus dari Beginner hingga Advanced</p>
           </div>
           <div className="space-y-3">
             {curriculum.map((m) => (
@@ -211,15 +211,15 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-violet-900/30 to-purple-900/30 pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-2xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl font-bold text-slate-100 mb-4">Siap Menjadi On-Chain Analyst?</h2>
+          <h2 className="text-3xl font-bold text-slate-100 mb-4">Tertarik Menjadi On-Chain Analyst?</h2>
           <p className="text-slate-400 mb-8 text-sm leading-relaxed">
-            Bergabung dengan ribuan pelajar yang sudah memulai perjalanan mereka. Gratis!
+            Mulai belajar hari ini
           </p>
           <Link
             href="/register"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-bold px-10 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 transition-all text-base shadow-xl shadow-violet-900/40"
           >
-            Daftar Sekarang →
+            Mulai Langkah Pertama Mu
           </Link>
         </div>
       </section>
