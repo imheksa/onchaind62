@@ -39,7 +39,7 @@ export default function RegisterPage() {
       return;
     }
 
-    router.push("/login?registered=1&email=" + encodeURIComponent(form.email));
+    router.push("/login");
   }
 
   return (
