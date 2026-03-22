@@ -39,7 +39,7 @@ export default async function CertificatePage({
           {/* Header */}
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-10 py-8 text-center">
             <div className="text-5xl mb-3">⛓️</div>
-            <div className="text-white font-bold text-xl tracking-wide">OnChain Academy</div>
+            <div className="text-white font-bold text-xl tracking-wide">onchaindo</div>
             <div className="text-indigo-200 text-sm mt-1">Sertifikat Kelulusan</div>
           </div>
 

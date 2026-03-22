@@ -53,7 +53,7 @@ export function Sidebar({ user }: { user?: User }) {
             ⛓
           </div>
           <span className="font-bold text-base text-slate-100">
-            OnChain <span className="text-violet-400">Academy</span>
+            onchain<span className="text-violet-400">do</span>
           </span>
         </Link>
         {/* Close button (mobile only) */}
@@ -133,7 +133,7 @@ export function Sidebar({ user }: { user?: User }) {
             ⛓
           </div>
           <span className="font-bold text-sm text-slate-100">
-            OnChain <span className="text-violet-400">Academy</span>
+            onchain<span className="text-violet-400">do</span>
           </span>
         </Link>
       </div>

@@ -78,7 +78,7 @@ export default function HomePage() {
               ⛓
             </div>
             <span className="font-bold text-base text-slate-100">
-              OnChain <span className="text-violet-400">Academy</span>
+              onchain<span className="text-violet-400">do</span>
             </span>
           </Link>
           <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="border-t border-slate-800 py-8 px-6 text-center">
-        <p className="text-slate-600 text-sm">© 2025 OnChain Academy · Dibuat untuk komunitas Web3 Indonesia</p>
+        <p className="text-slate-600 text-sm">© 2025 onchaindo · Dibuat untuk komunitas Web3 Indonesia</p>
       </footer>
 
     </div>

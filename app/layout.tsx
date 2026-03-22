@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OnChain Academy — Belajar Analisis On-Chain",
+  title: "onchaindo — Belajar Analisis On-Chain",
   description:
     "Platform belajar on-chain analysis: SQL, Dune Analytics, Footprint, DeFi, NFT, dan lebih banyak lagi.",
 };

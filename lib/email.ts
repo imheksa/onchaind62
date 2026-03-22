@@ -12,9 +12,9 @@ export async function sendVerificationEmail({
   verifyUrl: string;
 }) {
   const { data, error } = await resend.emails.send({
-    from: "OnChain Academy <onboarding@resend.dev>",
+    from: "onchaindo <onboarding@resend.dev>",
     to,
-    subject: "Verifikasi Email Anda — OnChain Academy",
+    subject: "Verifikasi Email Anda — onchaindo",
     html: `
       <!DOCTYPE html>
       <html>
@@ -23,7 +23,7 @@ export async function sendVerificationEmail({
           <div style="max-width: 560px; margin: 40px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
 
             <div style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); padding: 36px; text-align: center;">
-              <h1 style="color: white; margin: 0; font-size: 24px;">⛓ OnChain Academy</h1>
+              <h1 style="color: white; margin: 0; font-size: 24px;">⛓ onchaindo</h1>
               <p style="color: rgba(255,255,255,0.85); margin: 8px 0 0; font-size: 14px;">Platform Belajar On-Chain Analysis</p>
             </div>
 
@@ -31,7 +31,7 @@ export async function sendVerificationEmail({
               <p style="font-size: 17px; color: #111827; margin-top: 0;">Halo, <strong>${name}</strong>!</p>
 
               <p style="color: #4b5563; line-height: 1.6; margin-bottom: 28px;">
-                Terima kasih sudah mendaftar di OnChain Academy. Satu langkah lagi —
+                Terima kasih sudah mendaftar di onchaindo. Satu langkah lagi —
                 klik tombol di bawah untuk memverifikasi email Anda dan mulai belajar.
               </p>
 
@@ -51,7 +51,7 @@ export async function sendVerificationEmail({
 
             <div style="border-top: 1px solid #e5e7eb; padding: 18px 36px; text-align: center;">
               <p style="color: #9ca3af; font-size: 12px; margin: 0;">
-                © ${new Date().getFullYear()} OnChain Academy · Dibuat untuk komunitas Web3 Indonesia
+                © ${new Date().getFullYear()} onchaindo · Dibuat untuk komunitas Web3 Indonesia
               </p>
             </div>
           </div>
@@ -76,7 +76,7 @@ export async function sendCertificateEmail({
   claimUrl: string;
 }) {
   const { data, error } = await resend.emails.send({
-    from: "OnChain Academy <onboarding@resend.dev>",
+    from: "onchaindo <onboarding@resend.dev>",
     to,
     subject: `🎓 Selamat! Sertifikat ${courseName} Anda Siap`,
     html: `
@@ -84,13 +84,13 @@ export async function sendCertificateEmail({
       <html>
         <head>
           <meta charset="utf-8" />
-          <title>Sertifikat OnChain Academy</title>
+          <title>Sertifikat onchaindo</title>
         </head>
         <body style="font-family: Arial, sans-serif; background: #f9fafb; margin: 0; padding: 0;">
           <div style="max-width: 600px; margin: 40px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
 
             <div style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); padding: 40px; text-align: center;">
-              <h1 style="color: white; margin: 0; font-size: 28px;">🎓 OnChain Academy</h1>
+              <h1 style="color: white; margin: 0; font-size: 28px;">🎓 onchaindo</h1>
               <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0;">Sertifikat Kelulusan</p>
             </div>
 
@@ -100,7 +100,7 @@ export async function sendCertificateEmail({
               <p style="color: #4b5563; line-height: 1.6;">
                 Selamat! Anda telah berhasil menyelesaikan kursus
                 <strong style="color: #6366f1;">${courseName}</strong>
-                di OnChain Academy dengan nilai di atas 85%.
+                di onchaindo dengan nilai di atas 85%.
               </p>
 
               <div style="background: #f3f4f6; border-radius: 8px; padding: 20px; margin: 24px 0; text-align: center;">
@@ -122,7 +122,7 @@ export async function sendCertificateEmail({
 
             <div style="border-top: 1px solid #e5e7eb; padding: 20px 40px; text-align: center;">
               <p style="color: #9ca3af; font-size: 12px; margin: 0;">
-                © ${new Date().getFullYear()} OnChain Academy. All rights reserved.
+                © ${new Date().getFullYear()} onchaindo. All rights reserved.
               </p>
             </div>
           </div>

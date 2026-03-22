@@ -55,7 +55,7 @@ export default function RegisterPage() {
               ⛓
             </div>
             <span className="font-bold text-xl text-slate-100">
-              OnChain <span className="text-violet-400">Academy</span>
+              onchain<span className="text-violet-400">do</span>
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-slate-100">Buat Akun Baru</h1>
