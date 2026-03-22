@@ -140,7 +140,7 @@ export function LessonQuizWidget({ quiz, lessonTitle }: Props) {
                   Ulangi Kuis
                 </button>
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Saya baru saja menyelesaikan lesson "${lessonTitle}" dan menjawab quiz dengan score ${result.score}/${result.total} (${pct}%) 🎯\n\nMari belajar onchain analyst bersama 👇\nhttps://onchaindo.com`)}`}
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Saya baru saja menyelesaikan lesson "${lessonTitle}" dan menjawab quiz dengan score ${result.score}/${result.total} (${pct}%) 🎯\n\nMari belajar onchain analyst bersama`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm bg-black text-white px-5 py-2 rounded-lg hover:bg-zinc-800 transition-all border border-zinc-700"
