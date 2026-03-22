@@ -144,9 +144,6 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-slate-100 mb-4">Apa yang Akan Kamu Pelajari?</h2>
-            <p className="text-slate-400 max-w-xl mx-auto text-sm leading-relaxed">
-              Kurikulum lengkap dari dasar hingga mahir, dirancang khusus untuk calon on-chain analyst.
-            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f, i) => (
@@ -168,7 +165,6 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-slate-100 mb-4">Kurikulum Dasar</h2>
-            <p className="text-slate-400 text-sm">5 kursus dari Beginner hingga Advanced</p>
           </div>
           <div className="space-y-3">
             {curriculum.map((m) => (
@@ -207,9 +203,6 @@ export default function HomePage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <h2 className="text-3xl font-bold text-slate-100 mb-4">Tertarik Menjadi On-Chain Analyst?</h2>
-          <p className="text-slate-400 mb-8 text-sm leading-relaxed">
-            Mulai belajar hari ini
-          </p>
           <Link
             href="/register"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-bold px-10 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 transition-all text-base shadow-xl shadow-violet-900/40"
