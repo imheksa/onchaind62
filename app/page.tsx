@@ -46,12 +46,42 @@ const features = [
 ];
 
 const curriculum = [
-  { num: "01", title: "SQL Fundamentals", level: "Beginner", lessons: 12, topics: ["Apa itu Database & SQL?", "SELECT & FROM", "WHERE & Filter", "ORDER BY", "Fungsi Agregat", "JOIN Tabel", "Subquery & CTE", "Window Functions", "Date & Time Functions", "String & Konversi", "CASE WHEN & UNION", "DuneSQL (Trino)"] },
-  { num: "02", title: "Dune Analytics", level: "Intermediate", lessons: 4, topics: ["Apa itu Dune Analytics?", "Raw vs Decoded vs Spellbook", "Membuat Visualisasi", "Menyusun Dashboard"] },
-  { num: "03", title: "On-Chain Analysis", level: "Intermediate", lessons: 4, topics: ["Analisis Token ERC20", "Analisis NFT Marketplace", "Analisis Protokol DeFi", "Memahami & Mendeteksi MEV"] },
-  { num: "04", title: "Advanced On-Chain Analysis", level: "Advanced", lessons: 4, topics: ["Analisis Multi-Chain & Bridge", "Wallet Clustering & Smart Money", "Bitcoin On-Chain (UTXO)", "Dune API & Spellbook"] },
-  { num: "05", title: "Footprint Analytics", level: "Intermediate", lessons: 3, topics: ["Pengenalan Footprint Analytics", "No-Code Dashboard Builder", "SQL Mode di Footprint"] },
-  { num: "06", title: "Onchain Investigator", level: "Coming Soon", lessons: 0, topics: ["Onchain Tracking", "Arkham Intelligence", "MetaSleuth", "Leakpeek", "Dan lainnya..."] },
+  {
+    num: "01", title: "SQL Fundamentals", level: "Beginner", lessons: 12,
+    icon: "🗄️",
+    desc: "Pelajari SQL dari nol: SELECT, JOIN, Window Functions, hingga DuneSQL (Trino) yang dipakai analis profesional.",
+    color: "from-violet-500/20 to-purple-500/10 border-violet-500/20",
+  },
+  {
+    num: "02", title: "Dune Analytics", level: "Intermediate", lessons: 4,
+    icon: "📊",
+    desc: "Pahami struktur tabel Raw, Decoded, dan Spellbook. Buat query, visualisasi, dan dashboard interaktif di Dune.",
+    color: "from-sky-500/20 to-blue-500/10 border-sky-500/20",
+  },
+  {
+    num: "03", title: "On-Chain Analysis", level: "Intermediate", lessons: 4,
+    icon: "⛓️",
+    desc: "Analisis token ERC20, NFT marketplace, protokol DeFi, dan pelajari cara mendeteksi aktivitas MEV.",
+    color: "from-emerald-500/20 to-teal-500/10 border-emerald-500/20",
+  },
+  {
+    num: "04", title: "Advanced On-Chain Analysis", level: "Advanced", lessons: 4,
+    icon: "⚡",
+    desc: "Multi-chain & bridge, wallet clustering, Bitcoin UTXO, hingga Dune API dan kontribusi ke Spellbook.",
+    color: "from-amber-500/20 to-orange-500/10 border-amber-500/20",
+  },
+  {
+    num: "05", title: "Footprint Analytics", level: "Intermediate", lessons: 3,
+    icon: "🔍",
+    desc: "Kuasai Footprint Analytics dengan mode no-code drag-and-drop dan SQL untuk analisis multi-chain.",
+    color: "from-pink-500/20 to-rose-500/10 border-pink-500/20",
+  },
+  {
+    num: "06", title: "Onchain Investigator", level: "Coming Soon", lessons: 0,
+    icon: "🕵️",
+    desc: "Lacak wallet, identifikasi entitas, dan investigasi aktivitas mencurigakan dengan Arkham, MetaSleuth, dan Leakpeek.",
+    color: "from-slate-500/10 to-slate-600/5 border-slate-600/20",
+  },
 ];
 
 const stats = [
@@ -167,39 +197,32 @@ export default function HomePage() {
 
       {/* Curriculum */}
       <section className="py-20 px-6 bg-slate-900/50">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-slate-100 mb-4">Kurikulum Dasar</h2>
           </div>
-          <div className="space-y-3">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {curriculum.map((m) => (
               <div
                 key={m.num}
-                className={`bg-[#1e293b] border rounded-xl p-5 transition-colors ${m.level === "Coming Soon" ? "border-slate-700/30 opacity-60" : "border-slate-700/50 hover:border-violet-500/30"}`}
+                className={`bg-gradient-to-br ${m.color} border rounded-xl p-6 transition-transform ${m.level === "Coming Soon" ? "opacity-50" : "hover:scale-[1.02]"}`}
               >
-                <div className="flex items-start gap-4">
-                  <div className="bg-violet-500/15 text-violet-400 border border-violet-500/25 font-bold text-xs px-2.5 py-1 rounded-lg shrink-0 font-mono">
-                    {m.num}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-slate-200 text-sm">{m.title}</h3>
-                        <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${levelColor[m.level]}`}>{m.level}</span>
-                      </div>
-                      {m.level === "Coming Soon" ? (
-                        <span className="text-xs text-slate-500 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full animate-pulse">Segera Hadir</span>
-                      ) : (
-                        <span className="text-xs text-slate-500 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full">{m.lessons} lesson</span>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {m.topics.map((t) => (
-                        <span key={t} className="text-xs bg-slate-800 text-slate-400 border border-slate-700/50 px-2 py-0.5 rounded-md">{t}</span>
-                      ))}
-                    </div>
+                <div className="flex items-start justify-between mb-4">
+                  <span className="text-3xl">{m.icon}</span>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${levelColor[m.level]}`}>{m.level}</span>
                   </div>
                 </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-mono text-slate-500">{m.num}</span>
+                  <h3 className="font-semibold text-slate-100 text-base">{m.title}</h3>
+                </div>
+                <p className="text-slate-400 text-sm leading-relaxed mb-4">{m.desc}</p>
+                {m.level === "Coming Soon" ? (
+                  <span className="text-xs text-slate-500 border border-slate-600/50 px-2.5 py-1 rounded-full animate-pulse">Segera Hadir</span>
+                ) : (
+                  <span className="text-xs text-slate-500 border border-slate-700/50 px-2.5 py-1 rounded-full">{m.lessons} lesson</span>
+                )}
               </div>
             ))}
           </div>
