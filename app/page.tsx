@@ -51,6 +51,7 @@ const curriculum = [
   { num: "03", title: "On-Chain Analysis", level: "Intermediate", lessons: 4, topics: ["Analisis Token ERC20", "Analisis NFT Marketplace", "Analisis Protokol DeFi", "Memahami & Mendeteksi MEV"] },
   { num: "04", title: "Advanced On-Chain Analysis", level: "Advanced", lessons: 4, topics: ["Analisis Multi-Chain & Bridge", "Wallet Clustering & Smart Money", "Bitcoin On-Chain (UTXO)", "Dune API & Spellbook"] },
   { num: "05", title: "Footprint Analytics", level: "Intermediate", lessons: 3, topics: ["Pengenalan Footprint Analytics", "No-Code Dashboard Builder", "SQL Mode di Footprint"] },
+  { num: "06", title: "Onchain Investigator", level: "Coming Soon", lessons: 0, topics: ["Onchain Tracking", "Arkham Intelligence", "MetaSleuth", "Leakpeek", "Dan lainnya..."] },
 ];
 
 const stats = [
@@ -64,6 +65,7 @@ const levelColor: Record<string, string> = {
   Beginner: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
   Intermediate: "bg-amber-500/15 text-amber-400 border-amber-500/25",
   Advanced: "bg-red-500/15 text-red-400 border-red-500/25",
+  "Coming Soon": "bg-slate-500/15 text-slate-400 border-slate-500/25",
 };
 
 export default function HomePage() {
@@ -173,7 +175,7 @@ export default function HomePage() {
             {curriculum.map((m) => (
               <div
                 key={m.num}
-                className="bg-[#1e293b] border border-slate-700/50 rounded-xl p-5 hover:border-violet-500/30 transition-colors"
+                className={`bg-[#1e293b] border rounded-xl p-5 transition-colors ${m.level === "Coming Soon" ? "border-slate-700/30 opacity-60" : "border-slate-700/50 hover:border-violet-500/30"}`}
               >
                 <div className="flex items-start gap-4">
                   <div className="bg-violet-500/15 text-violet-400 border border-violet-500/25 font-bold text-xs px-2.5 py-1 rounded-lg shrink-0 font-mono">
@@ -185,7 +187,11 @@ export default function HomePage() {
                         <h3 className="font-semibold text-slate-200 text-sm">{m.title}</h3>
                         <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${levelColor[m.level]}`}>{m.level}</span>
                       </div>
-                      <span className="text-xs text-slate-500 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full">{m.lessons} lesson</span>
+                      {m.level === "Coming Soon" ? (
+                        <span className="text-xs text-slate-500 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full animate-pulse">Segera Hadir</span>
+                      ) : (
+                        <span className="text-xs text-slate-500 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full">{m.lessons} lesson</span>
+                      )}
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {m.topics.map((t) => (
