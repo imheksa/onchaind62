@@ -109,8 +109,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Mulai dari SQL dasar, query data blockchain di Dune, hingga analisis DeFi dan NFT.
-            Terstruktur, dan langsung praktik.
+            Belajar SQL Dasar Hingga Query Data Blockchain
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
