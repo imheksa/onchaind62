@@ -7,6 +7,6 @@ const BlockchainCanvas = dynamic(
   { ssr: false }
 );
 
-export function BlockchainCanvasWrapper() {
-  return <BlockchainCanvas />;
+export function BlockchainCanvasWrapper({ opacity = 0.55 }: { opacity?: number }) {
+  return <BlockchainCanvas opacity={opacity} />;
 }

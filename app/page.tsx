@@ -178,8 +178,9 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-20 px-6 relative overflow-hidden">
+        <BlockchainCanvasWrapper opacity={0.25} />
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-slate-100 mb-4">Apa yang Akan Kamu Pelajari?</h2>
           </div>
@@ -200,8 +201,9 @@ export default function HomePage() {
       </section>
 
       {/* Curriculum */}
-      <section className="py-20 px-6 bg-slate-900/50">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-20 px-6 bg-slate-900/50 relative overflow-hidden">
+        <BlockchainCanvasWrapper opacity={0.2} />
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-slate-100 mb-4">Kurikulum Dasar</h2>
           </div>
@@ -236,6 +238,7 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="py-24 px-6 relative overflow-hidden">
+        <BlockchainCanvasWrapper opacity={0.35} />
         <div className="absolute inset-0 bg-gradient-to-r from-violet-900/30 to-purple-900/30 pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-2xl mx-auto text-center relative z-10">

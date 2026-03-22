@@ -17,7 +17,7 @@ const NODE_COUNT = 55;
 const CONNECTION_DIST = 160;
 const NODE_COLOR = "139, 92, 246";
 
-export function BlockchainCanvas() {
+export function BlockchainCanvas({ opacity = 0.55 }: { opacity?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -126,7 +126,7 @@ export function BlockchainCanvas() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.55 }}
+      style={{ opacity }}
     />
   );
 }
