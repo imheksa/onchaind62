@@ -12,7 +12,7 @@ export async function sendVerificationEmail({
   verifyUrl: string;
 }) {
   const { data, error } = await resend.emails.send({
-    from: "OnChain Academy <noreply@onchain-academy.com>",
+    from: "OnChain Academy <onboarding@resend.dev>",
     to,
     subject: "Verifikasi Email Anda — OnChain Academy",
     html: `
@@ -76,7 +76,7 @@ export async function sendCertificateEmail({
   claimUrl: string;
 }) {
   const { data, error } = await resend.emails.send({
-    from: "OnChain Academy <noreply@onchain-academy.com>",
+    from: "OnChain Academy <onboarding@resend.dev>",
     to,
     subject: `🎓 Selamat! Sertifikat ${courseName} Anda Siap`,
     html: `
