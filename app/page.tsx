@@ -1,10 +1,5 @@
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const BlockchainCanvas = dynamic(
-  () => import("@/components/ui/BlockchainCanvas").then((m) => m.BlockchainCanvas),
-  { ssr: false }
-);
+import { BlockchainCanvasWrapper } from "@/components/ui/BlockchainCanvasWrapper";
 
 const features = [
   {
@@ -133,7 +128,7 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative pt-24 pb-28 px-6 overflow-hidden">
         {/* Blockchain network canvas */}
-        <BlockchainCanvas />
+        <BlockchainCanvasWrapper />
         {/* Background glows — animated float */}
         <div className="absolute top-0 left-1/2 w-[800px] h-[500px] bg-violet-600/10 rounded-full blur-3xl pointer-events-none animate-float" />
         <div className="absolute top-40 left-1/4 w-[400px] h-[300px] bg-purple-600/8 rounded-full blur-3xl pointer-events-none animate-float-plain" style={{ animationDelay: "2s" }} />
