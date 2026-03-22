@@ -126,44 +126,44 @@ export default function HomePage() {
 
       {/* Hero */}
       <section className="relative pt-24 pb-28 px-6 overflow-hidden">
-        {/* Background glows */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-40 left-1/4 w-[400px] h-[300px] bg-purple-600/8 rounded-full blur-3xl pointer-events-none" />
+        {/* Background glows — animated float */}
+        <div className="absolute top-0 left-1/2 w-[800px] h-[500px] bg-violet-600/10 rounded-full blur-3xl pointer-events-none animate-float" />
+        <div className="absolute top-40 left-1/4 w-[400px] h-[300px] bg-purple-600/8 rounded-full blur-3xl pointer-events-none animate-float-plain" style={{ animationDelay: "2s" }} />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-medium px-4 py-2 rounded-full mb-8">
+          <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-medium px-4 py-2 rounded-full mb-8 animate-fade-up">
             <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-pulse" />
             Free platform untuk belajar dasar-dasar onchain analyst
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 tracking-tight animate-fade-up delay-100">
             Playground Menuju{" "}
-            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="animate-gradient-text">
               Expert
             </span>
           </h1>
 
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-up delay-200">
             Belajar SQL Dasar Hingga Query Data Blockchain
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up delay-300">
             <Link
               href="/register"
-              className="bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 transition-all text-base shadow-xl shadow-violet-900/40"
+              className="bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 hover:scale-105 transition-all text-base shadow-xl shadow-violet-900/40"
             >
               Mulai Langkah Pertama Mu
             </Link>
             <Link
               href="/courses"
-              className="bg-slate-800 text-slate-200 font-semibold px-8 py-4 rounded-xl border border-slate-700 hover:bg-slate-700 hover:border-slate-600 transition-all text-base"
+              className="bg-slate-800 text-slate-200 font-semibold px-8 py-4 rounded-xl border border-slate-700 hover:bg-slate-700 hover:border-slate-600 hover:scale-105 transition-all text-base"
             >
               Lihat Kurikulum
             </Link>
           </div>
 
           {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-10 mt-16 pt-10 border-t border-slate-800">
+          <div className="flex flex-wrap justify-center gap-10 mt-16 pt-10 border-t border-slate-800 animate-fade-up delay-400">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
                 <div className="text-3xl font-bold text-slate-100">{s.value}</div>
@@ -184,7 +184,8 @@ export default function HomePage() {
             {features.map((f, i) => (
               <div
                 key={i}
-                className={`bg-gradient-to-br ${f.color} border rounded-xl p-6 hover:scale-[1.02] transition-transform`}
+                className={`bg-gradient-to-br ${f.color} border rounded-xl p-6 hover:scale-[1.03] hover:-translate-y-1 transition-all duration-300 animate-fade-up`}
+                style={{ animationDelay: `${i * 100}ms` }}
               >
                 <div className="text-3xl mb-4">{f.icon}</div>
                 <h3 className="font-semibold text-slate-100 text-base mb-2">{f.title}</h3>
@@ -202,10 +203,11 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold text-slate-100 mb-4">Kurikulum Dasar</h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {curriculum.map((m) => (
+            {curriculum.map((m, i) => (
               <div
                 key={m.num}
-                className={`bg-gradient-to-br ${m.color} border rounded-xl p-6 transition-transform ${m.level === "Coming Soon" ? "opacity-50" : "hover:scale-[1.02]"}`}
+                className={`bg-gradient-to-br ${m.color} border rounded-xl p-6 transition-all duration-300 animate-fade-up ${m.level === "Coming Soon" ? "opacity-50" : "hover:scale-[1.03] hover:-translate-y-1"}`}
+                style={{ animationDelay: `${i * 100}ms` }}
               >
                 <div className="flex items-start justify-between mb-4">
                   <span className="text-3xl">{m.icon}</span>
@@ -234,10 +236,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-violet-900/30 to-purple-900/30 pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-2xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl font-bold text-slate-100 mb-4">Tertarik Menjadi On-Chain Analyst?</h2>
+          <h2 className="text-3xl font-bold text-slate-100 mb-8 animate-fade-up">Tertarik Menjadi On-Chain Analyst?</h2>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-bold px-10 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 transition-all text-base shadow-xl shadow-violet-900/40"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-bold px-10 py-4 rounded-xl hover:from-violet-500 hover:to-purple-500 hover:scale-105 transition-all text-base shadow-xl shadow-violet-900/40 animate-fade-up delay-100"
           >
             Mulai Langkah Pertama Mu
           </Link>

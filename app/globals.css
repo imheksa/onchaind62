@@ -86,3 +86,54 @@ body {
 .prose td { padding: 0.625rem 1rem; border: 1px solid #334155; color: #94a3b8; }
 .prose tr:nth-child(even) td { background: #172033; }
 .prose hr { border: 0; border-top: 1px solid #334155; margin: 2rem 0; }
+
+/* ── Landing page animations ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(-50%); }
+  50%       { transform: translateY(-24px) translateX(-50%); }
+}
+@keyframes float-plain {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-16px); }
+}
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-fade-up   { animation: fade-up 0.7s ease both; }
+.animate-fade-in   { animation: fade-in 0.7s ease both; }
+.animate-float     { animation: float 7s ease-in-out infinite; }
+.animate-float-plain { animation: float-plain 6s ease-in-out infinite; }
+
+.animate-gradient-text {
+  background: linear-gradient(270deg, #a78bfa, #c084fc, #7c3aed, #a78bfa);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* stagger helpers */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
