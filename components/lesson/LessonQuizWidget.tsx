@@ -12,7 +12,7 @@ type Phase = "idle" | "active" | "finished";
 const LABELS = ["A", "B", "C", "D"];
 const TIME_PER_Q = 30;
 
-export function LessonQuizWidget({ quiz }: Props) {
+export function LessonQuizWidget({ quiz, lessonTitle }: Props) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(Array(quiz.questions.length).fill(null));
@@ -132,12 +132,25 @@ export function LessonQuizWidget({ quiz }: Props) {
                   ? "Hasil ini telah disimpan dan berkontribusi pada kelulusan kursus Anda."
                   : "Pelajari kembali materi lesson ini lalu coba kuis lagi."}
               </p>
-              <button
-                onClick={handleStart}
-                className="text-sm text-violet-400 hover:text-violet-300 border border-violet-600/30 px-5 py-2 rounded-lg hover:bg-violet-600/10 transition-all"
-              >
-                Ulangi Kuis
-              </button>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={handleStart}
+                  className="text-sm text-violet-400 hover:text-violet-300 border border-violet-600/30 px-5 py-2 rounded-lg hover:bg-violet-600/10 transition-all"
+                >
+                  Ulangi Kuis
+                </button>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Saya baru saja menyelesaikan lesson "${lessonTitle}" dan menjawab quiz dengan score ${result.score}/${result.total} (${pct}%) 🎯\n\nMari belajar onchain analyst bersama 👇\nhttps://onchaindo.com`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm bg-black text-white px-5 py-2 rounded-lg hover:bg-zinc-800 transition-all border border-zinc-700"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                  Bagikan ke X
+                </a>
+              </div>
             </>
           ) : null}
         </div>
