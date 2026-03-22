@@ -15,7 +15,11 @@ export default async function DashboardPage() {
           include: {
             modules: {
               include: {
-                lessons: true,
+                lessons: {
+                  include: {
+                    progress: { where: { userId: session.user.id } },
+                  },
+                },
                 quiz: { include: { attempts: { where: { userId: session.user.id }, orderBy: { createdAt: "desc" }, take: 1 } } },
               },
             },
@@ -64,6 +68,13 @@ export default async function DashboardPage() {
           <div className="space-y-3">
             {enrollments.map(({ course }) => {
               const totalLessons = course.modules.reduce((a, m) => a + m.lessons.length, 0);
+              const completedLessons = course.modules.reduce(
+                (a, m) => a + m.lessons.filter((l) => l.progress.length > 0).length,
+                0
+              );
+              const pct = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+              const isCompleted = pct === 100;
+
               return (
                 <Link
                   key={course.id}
@@ -73,10 +84,22 @@ export default async function DashboardPage() {
                   <div className="text-3xl shrink-0">{course.icon ?? "📚"}</div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-slate-200 group-hover:text-violet-300 transition-colors">{course.title}</h3>
-                    <p className="text-xs text-slate-500 mt-0.5">{totalLessons} lesson · {course.modules.length} modul</p>
+                    <p className="text-xs text-slate-500 mt-1">{totalLessons} lesson · {course.modules.length} modul</p>
+                    {/* Progress bar */}
+                    <div className="mt-2.5 flex items-center gap-2">
+                      <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all ${isCompleted ? "bg-emerald-400" : "bg-violet-500"}`}
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                      <span className={`text-xs font-medium shrink-0 ${isCompleted ? "text-emerald-400" : "text-slate-400"}`}>
+                        {isCompleted ? "✓ Selesai" : `${pct}%`}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-sm text-violet-400 font-medium shrink-0 group-hover:translate-x-0.5 transition-transform">
-                    Lanjutkan →
+                  <div className="text-sm text-violet-400 font-medium shrink-0 group-hover:translate-x-0.5 transition-transform ml-3">
+                    {isCompleted ? "Lihat →" : "Lanjutkan →"}
                   </div>
                 </Link>
               );
