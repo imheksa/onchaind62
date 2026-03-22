@@ -105,11 +105,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 tracking-tight">
-            Playground pertama untuk jadi expert,{" "}
-            <br />
-            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-              hasil tergantung anda
-            </span>
+            Playground Pertama Untuk Jadi Expert
           </h1>
 
           <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
