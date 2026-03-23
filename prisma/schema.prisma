@@ -210,6 +210,14 @@ model LessonQuestion {
   quiz    LessonQuiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
 }
 
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
 model LessonQuizAttempt {
   id        String     @id @default(cuid())
   score     Int

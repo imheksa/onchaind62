@@ -64,6 +64,62 @@ export async function sendVerificationEmail({
   return data;
 }
 
+export async function sendPasswordResetEmail({
+  to,
+  name,
+  resetUrl,
+}: {
+  to: string;
+  name: string;
+  resetUrl: string;
+}) {
+  const { data, error } = await resend.emails.send({
+    from: "onchaindo <onboarding@resend.dev>",
+    to,
+    subject: "Reset Password Anda — onchaindo",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head><meta charset="utf-8" /><title>Reset Password</title></head>
+        <body style="font-family: Arial, sans-serif; background: #f9fafb; margin: 0; padding: 0;">
+          <div style="max-width: 560px; margin: 40px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <div style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); padding: 36px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 24px;">⛓ onchaindo</h1>
+              <p style="color: rgba(255,255,255,0.85); margin: 8px 0 0; font-size: 14px;">Platform Belajar On-Chain Analysis</p>
+            </div>
+            <div style="padding: 36px;">
+              <p style="font-size: 17px; color: #111827; margin-top: 0;">Halo, <strong>${name}</strong>!</p>
+              <p style="color: #4b5563; line-height: 1.6; margin-bottom: 28px;">
+                Kami menerima permintaan reset password untuk akun Anda.
+                Klik tombol di bawah untuk membuat password baru. Link ini berlaku selama <strong>1 jam</strong>.
+              </p>
+              <div style="text-align: center; margin: 32px 0;">
+                <a href="${resetUrl}"
+                   style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 14px 36px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; display: inline-block;">
+                  Reset Password Saya
+                </a>
+              </div>
+              <p style="color: #9ca3af; font-size: 13px; line-height: 1.6;">
+                Jika Anda tidak meminta reset password, abaikan email ini — password Anda tidak akan berubah.<br/><br/>
+                Jika tombol tidak berfungsi, salin link berikut:<br/>
+                <a href="${resetUrl}" style="color: #6366f1; word-break: break-all; font-size: 12px;">${resetUrl}</a>
+              </p>
+            </div>
+            <div style="border-top: 1px solid #e5e7eb; padding: 18px 36px; text-align: center;">
+              <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+                © ${new Date().getFullYear()} onchaindo · Dibuat untuk komunitas Web3 Indonesia
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  });
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
 export async function sendCertificateEmail({
   to,
   name,
